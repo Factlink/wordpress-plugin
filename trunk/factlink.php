@@ -15,7 +15,7 @@ Author URI: https://factlink.com/
 defined( 'ABSPATH' ) or die ( 'Cannot access pages directly.' );
 
 function add_factlink() {
-  wp_enqueue_script( 'factlink', 'https://static.factlink.com/lib/dist/factlink_loader_publishers.min.js', '', false, true );
+  echo '<script async="async" defer="defer" src="https://static.factlink.com/lib/dist/factlink_loader_publishers.min.js"></script>';
 }
 
-add_action( 'init', 'add_factlink' );
+add_action( 'wp_head', 'add_factlink' );
