@@ -9,11 +9,12 @@ Factlink works on helping people understand how credible the information is that
 
 == Description ==
 
-Factlink works on helping people understand how credible the information is that they’re reading online. Factlink is a layer over the web that helps people understand what they read and share what they're reading.
+Factlink works on helping people discuss and annotate what they’re reading - inline, right where they're reading it, instead of an intrusive comment field at
+ the bottom of your site.  Factlink is a layer over the web that helps people understand what they read and share what they're reading.
 
-This plugin enables you to create and view Factlinks on your Wordpress website. You can annotate any statement on your website by selecting the statement and clicking the add Factlink button.
+This plugin allows you and your readers to create and view annotations on your Wordpress website. You can annotate any statement on your website by selecting the statement and clicking the add Factlink button that appears.
 
-You can find more information at [https://factlink.com/](https://factlink.com/)
+You can find more information at [https://factlink.com/](https://factlink.com/).
 
 == Installation ==
 
@@ -31,3 +32,6 @@ You can find more information at [https://factlink.com/](https://factlink.com/)
 
 = 0.1 =
 First version
+
+= 0.2 =
+Load factlink asynchronously to ensure your site isn't slowed down.
