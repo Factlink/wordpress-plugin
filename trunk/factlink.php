@@ -1,14 +1,14 @@
 <?php
 /**
  * @package Factlink
- * @version 0.1
+ * @version 0.2
  */
 /*
 Plugin Name: Factlink
 Plugin URI: https://factlink.com/
-Description: Factlink works on helping people understand how credible the information is that they’re reading online.
+Description: Factlink enables your readers to share inline comments and annotations.
 Author: Factlink
-Version: 0.1
+Version: 0.2
 Author URI: https://factlink.com/
 */
 
