@@ -2,7 +2,7 @@
 Contributors: factlink
 Tags: factlink, annotation, credibility
 Requires at least: 3.0.1
-Tested up to: 3.7.1
+Tested up to: 3.8
 Stable tag: trunk
 
 Factlink works on helping people understand how credible the information is that they’re reading online.
