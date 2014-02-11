@@ -35,3 +35,6 @@ First version
 
 = 0.2 =
 Load factlink asynchronously to ensure your site isn't slowed down.
+
+= 1.0 =
+Updated Factlink loader to use the new loader scripts.
