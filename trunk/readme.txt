@@ -24,9 +24,9 @@ You can find more information at [https://factlink.com/](https://factlink.com/).
 
 == Screenshots ==
 
-1. The Factlink discussion page
-2. A nice feed to keep you up to date about recent activity
-3. Proving a tour for new users
+1. The Factlink discussion sidebar
+2. Factlink adds automaticly paragraph icons to each paragraph
+3. Optionally, you can annotate statements to discuss about specific statements.
 
 == Changelog ==
 
