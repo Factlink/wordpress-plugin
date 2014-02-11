@@ -5,7 +5,7 @@ Requires at least: 3.0.1
 Tested up to: 3.8
 Stable tag: trunk
 
-Factlink works on helping people understand how credible the information is that they’re reading online.
+Integrates the Factlink commenting & annotation tool in your Wordpress website
 
 == Description ==
 
@@ -38,3 +38,6 @@ Load factlink asynchronously to ensure your site isn't slowed down.
 
 = 1.0 =
 Updated Factlink loader to use the new loader scripts.
+
+= 1.1 =
+Updated description of Factlink plugin
