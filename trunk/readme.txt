@@ -40,4 +40,4 @@ Load factlink asynchronously to ensure your site isn't slowed down.
 Updated Factlink loader to use the new loader scripts.
 
 = 1.1 =
-Updated description of Factlink plugin
+Updated description of Factlink plugin.
