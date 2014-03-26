@@ -9,6 +9,7 @@
 namespace vg\wordpress_plugin;
 
 // TODO: when rendering views access to methods like: form / input_field / .. creators
+// TODO: add localization
 
 class WordpressPlugin
 {
@@ -18,7 +19,6 @@ class WordpressPlugin
     public $meta_prefix = '';
 
     // global settings which can be redefined by the childclass
-
 
     public $root_path;
     public $app_path;
@@ -36,6 +36,13 @@ class WordpressPlugin
 
 
     public function __construct()
+    {
+        // wordpress hook for initiazing a plugin
+        add_action('init', array($this, 'initialize'));
+    }
+
+    // does the actual plugin initialization
+    public function initialize()
     {
         // setup the paths for the plugin
         $this->setup_paths();
@@ -61,17 +68,46 @@ class WordpressPlugin
     }
 
     // add a capability on a wordpress trigger
-    protected function add_capability($capability_name, $action_name, $num_args = 1)
+    protected function add_capability($capability_name, $action_name = null, $wordpress_capabilities = [], $num_args = 1)
     {
-        // TODO: check here whether capabilities will be instantiated at all, based on the wordpress capabilities
+        // TODO: validators should have arguments, like min/max length, etc
 
-        // when action is triggered run the anonymous function to instantiate the appropriate capability
-        add_action($action_name, function() use ($capability_name)
+        // empty array means the current user always has enough rights
+        $has_rights = true;
+
+        // iterate each of the passed wordpress capabilies
+        for ($i = 0; $i < count($wordpress_capabilities); $i++)
         {
-            $args = func_get_args();
+            if (current_user_can($wordpress_capabilities[$i]) === false)
+            {
+                $has_rights = false;
+                break;
+            }
+        }
 
-            $this->action_callback_handler($capability_name, $args);
-        }, 10, $num_args);
+        // only when the user has enough rights add the capability
+        if($has_rights)
+        {
+            // if the action is null, execute immediatly
+            if ($action_name === null)
+            {
+                $this->action_callback_handler($capability_name, []);
+            }
+            else
+            {
+                // when action is triggered run the anonymous function to instantiate the appropriate capability
+                add_action($action_name, function() use ($capability_name)
+                {
+                    // get the function arguments
+                    $args = func_get_args();
+
+                    // call this when wordpress hook is called
+                    $this->action_callback_handler($capability_name, $args);
+
+                }, 10, $num_args);
+            }
+
+        }
     }
 
     // setup application paths
