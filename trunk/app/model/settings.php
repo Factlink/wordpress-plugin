@@ -10,23 +10,42 @@ namespace factlink\model;
 
 class Settings extends \vg\wordpress_plugin\model\Model
 {
-    // TODO: should be done somewhere else? Or pulled from central location?
-    protected $prefix = 'factlink_';
+    public $enabled_for_posts;
+    public $enabled_for_pages;
+    public $is_configured;
 
-    // TODO: use option group?
-    protected $option_group = 'factlink_option_group';
-
-
-    public $option_1;
+    public $post_meta;
+    public $page_meta;
 
 
-    // TODO: replaced by overridden method
-    function __construct()
+    function initialize()
     {
-        // call the parent constructor
-        parent::__construct();
+        // setting if factlink is enabled for all the pages
+        $this->enabled_for_pages = $this->create_option_meta('enabled_for_pages', 'global_settings', 1, ['int']);
 
-        // create option 1
-        $this->option_1 = $this->create_option('option_1', 0, ['int']);
+        // setting if factlink is enabled for all the posts
+        $this->enabled_for_posts = $this->create_option_meta('enabled_for_posts', 'global_settings', 1, ['int']);
+
+        // setting to display configuration message as long factlink isn't configured
+        $this->is_configured = $this->create_option_meta('is_configured', 'global_settings', 0, ['int']);
+
+        // get a post meta data object
+        // TODO: post/page meta should also have validators instead of callback functions
+        $this->post_meta = $this->create_post_meta('post', 'is_enabled', 1, ['int']);
+
+        // create page meta object
+        $this->page_meta = $this->create_post_meta('page', 'is_enabled', 1, ['int']);
+    }
+
+    public function activate()
+    {
+        // set the state of the is_configured to 0 -> not configured
+        $this->is_configured->set(0);
+    }
+
+    public function deactivate()
+    {
+        // set the state of the is_configured to 0 -> not configured
+        $this->is_configured->set(0);
     }
 }
