@@ -24,6 +24,9 @@ class Factlink extends \vg\wordpress_plugin\WordpressPlugin
     // set the namespace
     public $namespace = 'factlink';
 
+    // prefix for the meta data models
+    public $meta_prefix = 'factlink_';
+
     // add all the capabilities
     protected function setup_capabilities()
     {
@@ -31,7 +34,7 @@ class Factlink extends \vg\wordpress_plugin\WordpressPlugin
         $this->add_capability('configuration_notice', 'admin_notices');
 
         // capability for adding a meta box to a blog or page edit page for enabling/disabling factlink
-        $this->add_capability('meta_box', 'add_meta_boxes');
+        $this->add_capability('meta_box', 'add_meta_boxes', 2);
 
         // create the factlink settings page
         $this->add_capability('admin_page', 'admin_menu');
