@@ -10,47 +10,108 @@ namespace vg\wordpress_plugin\model;
 
 class Model
 {
-    protected $option_group = '';
-    protected $prefix = '';
-    protected $options;
+    // set when instantiated
+    public $plugin;
+    public $meta_prefix;
+    // set when instantiated
 
-    private $register_settings = false;
 
-    function __construct()
+    public function __construct()
     {
         // instantiate the options array
         $this->options = [];
     }
 
-    protected function create_option($option_name, $default_value, $validators)
+    public function activate()
     {
-        if ($this->register_settings === false) {
+        // can be overridden by the child class
+    }
 
-            // set the boolean value
-            $this->register_settings = true;
+    public function deactivate()
+    {
+        // can be overridden by the child class
+    }
 
-            // add a callback function for wordpress to register to appropriate settings
-            add_action('admin_init', array($this, 'register_settings'));
-        }
+    public function initialize()
+    {
+
+        throw new \Exception("Model: initialize method should be overridden.");
+
+    }
+
+
+    protected function create_post_meta($meta_type, $meta_field_name, $default_value, $validators)
+    {
+        $meta = new meta\Post($meta_field_name, $meta_type, $default_value, $validators, $this);
+
+        return $meta;
+    }
+
+    protected function create_option_meta($option_name, $option_group, $default_value, $validators)
+    {
+        // TODO: throws error if field already exists
 
         // instantiate a new option
-        $option = new Option($option_name, $default_value, $validators, $this->prefix);
-
-        // store the option
-        $this->options[$option_name] = $option;
+        $option = new meta\Option($option_name, $option_group, $default_value, $validators, $this);
 
         // return the option
         return $option;
     }
 
-    public function register_settings()
+
+
+    public function validate($value, $validators)
     {
-        // iterate each of the options
-        foreach ($this->options as $option_name => $option)
-        {
-            // register the option with wordpress
-            register_setting($this->option_group, $option->name(true), array($option, 'sanitize'));
+        $messages = [];
+
+        // iterate each of the validators
+        for ($i = 0; $i < count($validators); $i++) {
+
+            // get the validator
+            $validator = $this->get_validator($validators[$i]);
+
+            // store the error message somewhere?
+            if ($validator->validate($value) === false) {
+
+                // the validation fails
+                $messages[] = $validator->error_message($value);
+            }
+
         }
+
+        if (count($messages))
+        {
+            return $messages;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    // TODO: the storing of singletons should be done in the plugin class
+    private static $loaded_validators = [];
+
+    private function get_validator($validator_name)
+    {
+        if (array_key_exists($validator_name, Model::$loaded_validators)) {
+            return Model::$loaded_validators[$validator_name];
+        } else {
+            // get the validator
+            $validator = $this->load_validator($validator_name);
+
+            // store with the instantiated validators
+            Model::$loaded_validators[$validator_name] = $validator;
+
+            // return the validator
+            return $validator;
+        }
+    }
+
+    private function load_validator($validator_name)
+    {
+        // include the file and instantiate
+        return $this->plugin->instantiate_validator($validator_name);
     }
 
 }
