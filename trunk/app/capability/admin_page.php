@@ -27,6 +27,7 @@ class AdminPage extends \vg\wordpress_plugin\capability\Capability
         // register the options that can be updated through the view
         $this->settings->enabled_for_pages->register();
         $this->settings->enabled_for_posts->register();
+        $this->settings->disable_global_comments->register();
     }
 
     public function admin_page_requested()
