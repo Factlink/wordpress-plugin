@@ -16,10 +16,11 @@ class Capability
         $this->name = $name;
     }
 
-    public function initialize()
-    {
-        throw new \Exception('Capability: initialize method should be overridden.');
-    }
+    // TODO: the signature of the child classes is always different, how to fix so can still be overridden?
+//    public function initialize()
+//    {
+//        throw new \Exception('Capability: initialize method should be overridden.');
+//    }
 
     public function render($view_name = null)
     {
