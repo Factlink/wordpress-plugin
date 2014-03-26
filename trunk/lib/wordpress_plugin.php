@@ -8,9 +8,17 @@
 
 namespace vg\wordpress_plugin;
 
+// TODO: when rendering views access to methods like: form / input_field / .. creators
+
 class WordpressPlugin
 {
+    // global settings which can be redefined by the childclass
+
     public $namespace = 'vg\wordpress_plugin';
+    public $meta_prefix = '';
+
+    // global settings which can be redefined by the childclass
+
 
     public $root_path;
     public $app_path;
@@ -38,6 +46,9 @@ class WordpressPlugin
         // check available models
         $this->store_available_models();
 
+        // set activate / deactivate hooks
+        $this->setup_global_plugin_hooks();
+
         // setup the hooks
         $this->setup_capabilities();
     }
@@ -50,15 +61,17 @@ class WordpressPlugin
     }
 
     // add a capability on a wordpress trigger
-    protected function add_capability($capability_name, $action_name)
+    protected function add_capability($capability_name, $action_name, $num_args = 1)
     {
         // TODO: check here whether capabilities will be instantiated at all, based on the wordpress capabilities
 
         // when action is triggered run the anonymous function to instantiate the appropriate capability
         add_action($action_name, function() use ($capability_name)
         {
-            $this->action_callback_handler($capability_name, func_get_args());
-        });
+            $args = func_get_args();
+
+            $this->action_callback_handler($capability_name, $args);
+        }, 10, $num_args);
     }
 
     // setup application paths
@@ -111,6 +124,56 @@ class WordpressPlugin
         }
     }
 
+    // global plugin hooks: activation / deactivation / uninstall?
+    private function setup_global_plugin_hooks()
+    {
+        // generate the filename from the plugin class. So it's important it's named the same!!
+        // TODO: check if the filename and the classname of the plugin are the same
+        $filename = \vg\wordpress_plugin\util\Util::from_camel_case(get_class($this)) . '.php';
+
+        // add the full absoluate path
+        $filename = $this->root_path . $filename;
+
+        // add wordpress activation hook
+        register_activation_hook($filename, array($this, 'activate_models'));
+
+        // add a hook for when the plugin is deactivated
+        register_deactivation_hook( $filename, array($this, 'deactivate_models') );
+
+    }
+
+    // calls the activate method on all the models
+    public function activate_models()
+    {
+        foreach ($this->models as $model_name => $model)
+        {
+            if ($model === null)
+            {
+                // get the model
+                $model = $this->instantiate_model($model_name);
+            }
+
+            // run the activation method on the model
+            $model->activate();
+        }
+    }
+
+    // calls the deactivate method on all the models
+    public function deactivate_models()
+    {
+        foreach ($this->models as $model_name => $model)
+        {
+            if ($model === null)
+            {
+                // get the model
+                $model = $this->instantiate_model($model_name);
+            }
+
+            // run the activation method on the model
+            $model->deactivate();
+        }
+    }
+
     // load all the needed dependencies
     private function load_dependencies()
     {
@@ -126,8 +189,10 @@ class WordpressPlugin
         // load the model
         include ("$this->lib_path/model/model.php");
 
-        // load the model
-        include ("$this->lib_path/model/option.php");
+        // load the meta class
+        include ("$this->lib_path/model/meta/meta.php");
+        include ("$this->lib_path/model/meta/option.php");
+        include ("$this->lib_path/model/meta/post.php");
     }
 
     // is called when registered wordpress action is called
@@ -189,6 +254,7 @@ class WordpressPlugin
                 if ($model === null)
                 {
                     // instantiate and store the new model
+                    // TODO: should be moved to load_model
                     $this->models[$model_name] = $this->instantiate_model($model_name);
 
                     // update the local $model
@@ -217,8 +283,36 @@ class WordpressPlugin
         // instantiate the actual model
         $model = new $class_name();
 
+        // inject into the model
+        $model->plugin = $this;
+
+        // set the config
+        $model->meta_prefix = $this->meta_prefix;
+
+        // call the constructor
+        $model->initialize();
+
         // return the newly created model
         return $model;
+    }
+
+    // TODO: refactor, so instantiate model and capability don't use the same code
+    public function instantiate_validator($validator_name)
+    {
+        // include the model
+        include "$this->lib_path" . "validator/$validator_name.php";
+
+        // get the class name of the capability
+        $class_name = util\Util::to_camel_case($validator_name, true);
+
+        // add the namespace
+        $class_name = "vg\\wordpress_plugin\\validator\\" . $class_name;
+
+        // instantiate the actual model
+        $validator = new $class_name();
+
+        // return the newly created model
+        return $validator;
     }
 
 }
