@@ -2,7 +2,7 @@
 Contributors: factlink
 Tags: discussions, annotation, credibility, social network
 Requires at least: 3.0.1
-Tested up to: 3.8
+Tested up to: 3.8.1
 Stable tag: trunk
 
 Great discussions on your site. Readers join discussions inside your articles and invite their friends. You get engaged users, and more of them.
