@@ -15,7 +15,7 @@ class DisableComments extends \vg\wordpress_plugin\capability\Capability
         if ($this->settings->disable_global_comments->get() == 1)
         {
             // add a filter to when wordpress asks if comments are open for the current post, can return false
-            add_filter( 'comments_open', array($this, 'disable_comments_filter'), 10, 2 );
+            add_filter( 'comments_open', array($this, 'disable_comments_filter'));
 
             // TODO: remove / replace the comments link from the top admin bar
             // TODO: remove / replace the comments link from the left admin bar
@@ -23,7 +23,7 @@ class DisableComments extends \vg\wordpress_plugin\capability\Capability
     }
 
     // the return value determines if the comment is enabled / disabled for the current page
-    public function disable_comments_filter( $open, $post_id ) {
+    public function disable_comments_filter() {
 
         return false;
 
