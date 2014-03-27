@@ -19,10 +19,10 @@ class Post extends Meta
     {
         // Verify this came from the our screen and with proper authorization,
         // because save_post can be triggered at other times
-        //if ( !wp_verify_nonce( $_POST[$this->name], plugin_basename(__FILE__) )) {
-        //    return $post_id;
-        //}
-        // TODO: add a wordpress nonce field to determine the proper origin of the request
+        if (!isset( $_POST[$this->name . '_nonce'] ) || !wp_verify_nonce( $_POST[$this->name . '_nonce'], $this->name . '_nonce_action' ))
+        {
+            return $post_id;
+        }
 
         // Verify if this is an auto save routine. If it is our form has not been submitted, so we dont want
         // to do anything
