@@ -31,13 +31,13 @@ class Factlink extends \vg\wordpress_plugin\WordpressPlugin
     protected function setup_capabilities()
     {
         // capability for displaying a notice when factlink isn't configured
-        $this->add_capability('configuration_notice', 'admin_notices', ['manage_options']);
+        $this->add_capability('configuration_notice', 'admin_notices', array('manage_options'));
 
         // capability for adding a meta box to a blog or page edit page for enabling/disabling factlink
-        $this->add_capability('meta_box', 'add_meta_boxes', ['manage_options'], 2);
+        $this->add_capability('meta_box', 'add_meta_boxes', array('manage_options'), 2);
 
         // create the factlink settings page
-        $this->add_capability('admin_page', 'admin_menu', ['manage_options']);
+        $this->add_capability('admin_page', 'admin_menu', array('manage_options'));
 
         // add the actual factlink javascript code to wordpress
         $this->add_capability('include_factlink', 'wp_head');

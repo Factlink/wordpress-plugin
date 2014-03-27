@@ -62,20 +62,23 @@ class WordpressPlugin
     }
 
     // add a capability on a wordpress trigger
-    protected function add_capability($capability_name, $action_name = null, $wordpress_capabilities = [], $num_args = 1)
+    protected function add_capability($capability_name, $action_name = null, $wordpress_capabilities = null, $num_args = 1)
     {
         // TODO: validators should have arguments, like min/max length, etc
 
         // empty array means the current user always has enough rights
         $has_rights = true;
 
-        // iterate each of the passed wordpress capabilies
-        for ($i = 0; $i < count($wordpress_capabilities); $i++)
+        if ($wordpress_capabilities !== null)
         {
-            if (current_user_can($wordpress_capabilities[$i]) === false)
+            // iterate each of the passed wordpress capabilies
+            for ($i = 0; $i < count($wordpress_capabilities); $i++)
             {
-                $has_rights = false;
-                break;
+                if (current_user_can($wordpress_capabilities[$i]) === false)
+                {
+                    $has_rights = false;
+                    break;
+                }
             }
         }
 
@@ -85,7 +88,7 @@ class WordpressPlugin
             // if the action is null, execute immediatly
             if ($action_name === null)
             {
-                $this->action_callback_handler($capability_name, []);
+                $this->action_callback_handler($capability_name, array());
             }
             else
             {
