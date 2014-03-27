@@ -1,7 +1,7 @@
 <?php
 /**
  * @package Factlink
- * @version 1.1
+ * @version 2.0
  */
 /*
 Plugin Name: Factlink for Wordpress
