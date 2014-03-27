@@ -1,20 +1,29 @@
 === Plugin Name ===
 Contributors: factlink
-Tags: factlink, annotation, credibility
+Tags: discussions, annotation, credibility, social network
 Requires at least: 3.0.1
 Tested up to: 3.8
 Stable tag: trunk
 
-Integrates the Factlink commenting & annotation tool in your Wordpress website
+Great discussions on your site. Readers join discussions inside your articles and invite their friends. You get engaged users, and more of them.
 
 == Description ==
 
-Factlink works on helping people discuss and annotate what they’re reading - inline, right where they're reading it, instead of an intrusive comment field at
- the bottom of your site.  Factlink is a layer over the web that helps people understand what they read and share what they're reading.
+= Focussed discussions =
 
-This plugin allows you and your readers to create and view annotations on your Wordpress website. You can annotate any statement on your website by selecting the statement and clicking the add Factlink button that appears.
+Have discussions where they belong. Don’t let quibble over details swamp other comments. Users will vote for the best discussions, and the best points made in your articles. Inline comments add a layer of lively debate to otherwise passive content. Give your visitors the opportunity to discuss directly with the author, turning a monologue into a conversation.
 
-You can find more information at [https://factlink.com/](https://factlink.com/).
+= Higher engagement and retention =
+
+Visitors start discussing in your article while reading. They get immediately engaged, so they stick around longer. When the discussion progresses, your visitors get notified and will come back to your site.
+
+= Social reach =
+
+We make it easy for readers to invite their Facebook friends and Twitter followers to join the discussion. In addition, Factlink itself is a social network for knowledge, where users can subscribe to discussions on your website, and discover new content.
+
+= More information =
+
+You can find more information at [https://factlink.com/publisher](https://factlink.com/publisher).
 
 == Installation ==
 
@@ -30,14 +39,14 @@ You can find more information at [https://factlink.com/](https://factlink.com/).
 
 == Changelog ==
 
-= 0.1 =
-First version
-
-= 0.2 =
-Load factlink asynchronously to ensure your site isn't slowed down.
+= 1.1 =
+Updated description of Factlink plugin.
 
 = 1.0 =
 Updated Factlink loader to use the new loader scripts.
 
-= 1.1 =
-Updated description of Factlink plugin.
+= 0.2 =
+Load factlink asynchronously to ensure your site isn't slowed down.
+
+= 0.1 =
+First version
