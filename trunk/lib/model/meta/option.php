@@ -30,10 +30,6 @@ class Option extends Meta
 
     public function sanitize($value)
     {
-        // TODO: sanitize and validate the data
-
-        // if doesn't pass validation, use the previous value as the return value?
-
         if (!is_array($this->validators))
         {
             $message = "The validators for '$this->name'' isn't an array.";
