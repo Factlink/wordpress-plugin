@@ -30,14 +30,20 @@ You can find more information at [https://factlink.com/](https://factlink.com/).
 
 == Changelog ==
 
-= 0.1 =
-First version
+= 2.0 =
+* NEW: Factlink configuration panel
+* NEW: Ability to enable Factlink for all pages and/or posts
+* NEW: Ability to enable Factlink for single pages and/or posts
+* NEW: Ability to replace Wordpress comments with Factlink
 
-= 0.2 =
-Load factlink asynchronously to ensure your site isn't slowed down.
+= 1.1 =
+Updated description of Factlink plugin.
 
 = 1.0 =
 Updated Factlink loader to use the new loader scripts.
 
-= 1.1 =
-Updated description of Factlink plugin.
+= 0.2 =
+Load factlink asynchronously to ensure your site isn't slowed down.
+
+= 0.1 =
+First version

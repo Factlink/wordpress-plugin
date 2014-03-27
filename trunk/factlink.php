@@ -8,7 +8,7 @@ Plugin Name: Factlink for Wordpress
 Plugin URI: https://factlink.com/
 Description: Integrates the Factlink commenting & annotation tool in your Wordpress website
 Author: Factlink
-Version: 1.1
+Version: 2.0
 Author URI: https://factlink.com/
 */
 
