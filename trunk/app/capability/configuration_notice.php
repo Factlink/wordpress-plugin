@@ -15,20 +15,19 @@ class ConfigurationNotice extends \vg\wordpress_plugin\capability\Capability
 
     public function initialize()
     {
-        // TODO: maybe use $_GET['page'] instead of current screen?
-
-        $menu_slug = 'factlink_settings_page';
-
-        $screen = get_current_screen();
-
-
-
-        // if not yet configured AND isn't on the settings page, display the notification
-        if ($this->settings->is_configured->get() == 0 && $screen->id != "settings_page_$menu_slug")
+        // if the current page is the admin page, remove the configuration message
+        if (isset($_GET['page']) && $_GET['page'] == $this->settings->menu_slug)
         {
-            $parent_slug = 'options-general.php';
+            $this->settings->is_configured->set(1);
+        }
 
-            $this->url = get_admin_url(null, $parent_slug . "?page=" . $menu_slug);
+        // if not yet configured
+        if ($this->settings->is_configured->get() == 0)
+        {
+            // get the menu url
+            $this->url = $this->settings->menu_url;
+
+            // render the configuration notice
             $this->render();
         }
     }
