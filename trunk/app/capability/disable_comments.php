@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: maarten
- * Date: 26/03/14
- * Time: 16:53
- */
 
 namespace factlink\capability;
 

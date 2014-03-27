@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: maarten
- * Date: 24/03/14
- * Time: 09:50
- */
 
 namespace vg\wordpress_plugin;
 
