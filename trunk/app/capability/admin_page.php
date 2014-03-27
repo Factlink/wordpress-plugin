@@ -12,11 +12,11 @@ class AdminPage extends \vg\wordpress_plugin\capability\Capability
     public function initialize()
     {
         // settings for the admin page
-        $parent_slug = 'options-general.php';
-        $page_title = 'Factlink settings';
-        $menu_title = 'Factlink';
-        $capability = 'administrator';
-        $menu_slug = 'factlink_settings_page';
+        $parent_slug = $this->settings->menu_parent_slug;
+        $page_title = $this->settings->menu_page_title;
+        $menu_title = $this->settings->menu_title;
+        $capability = $this->settings->menu_capability;
+        $menu_slug = $this->settings->menu_slug;
 
         // use the builtin render
         $render_callback = array($this, 'admin_page_requested');

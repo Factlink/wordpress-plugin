@@ -12,9 +12,19 @@ class Settings extends \vg\wordpress_plugin\model\Model
     public $post_meta;
     public $page_meta;
 
+    // settings for the admin page
+    public $menu_parent_slug = 'options-general.php';
+    public $menu_page_title = 'Factlink settings';
+    public $menu_title = 'Factlink';
+    public $menu_capability = 'administrator';
+    public $menu_slug = 'factlink_settings_page';
+    public $menu_url;
 
     function initialize()
     {
+        // set the admin page url
+        $this->menu_url = get_admin_url(null, $this->menu_parent_slug . "?page=" . $this->menu_slug);
+
         // setting if factlink is enabled for all the pages
         $this->enabled_for_pages = $this->create_option_meta('enabled_for_pages', 'global_settings', 1, ['int']);
 
