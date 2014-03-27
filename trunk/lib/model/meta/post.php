@@ -19,14 +19,13 @@ class Post extends Meta
     {
         // Verify this came from the our screen and with proper authorization,
         // because save_post can be triggered at other times
-        if (!isset( $_POST[$this->name . '_nonce'] ) || !wp_verify_nonce( $_POST[$this->name . '_nonce'], $this->name . '_nonce_action' ))
-        {
+        if (!isset($_POST[$this->name . '_nonce']) || !wp_verify_nonce($_POST[$this->name . '_nonce'], $this->name . '_nonce_action')) {
             return $post_id;
         }
 
         // Verify if this is an auto save routine. If it is our form has not been submitted, so we dont want
         // to do anything
-        if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE )
+        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)
             return $post_id;
 
         // when nothing posted return
@@ -64,14 +63,10 @@ class Post extends Meta
         // returns new meta id, true on success or false on failure
         $return = update_post_meta($post_id, $this->name, $value);
 
-        if ($return === false)
-        {
+        if ($return === false) {
             return false;
-        }
-        else
-        {
+        } else {
             return true;
         }
     }
 }
-

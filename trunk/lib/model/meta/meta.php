@@ -29,13 +29,10 @@ class Meta
         $value = call_user_func_array(array($this, 'get_value'), $args);
 
         // If the value validates, return the value
-        if ($this->validates($value) === true)
-        {
+        if ($this->validates($value) === true) {
             return $value;
-        }
-        // if it doesn't validate, store the default value as the new value
-        else
-        {
+        } // if it doesn't validate, store the default value as the new value
+        else {
             // get the default value
             $default = $this->default_value();
 
@@ -46,8 +43,7 @@ class Meta
             $value = call_user_func_array(array($this, 'set'), $args);
 
             // if the setting of the default values fails -> raise error
-            if ($value === false)
-            {
+            if ($value === false) {
                 throw new \Exception("Meta: unable to set the default value '$default' of field '$this->name'");
             }
 
@@ -58,16 +54,13 @@ class Meta
     public function set($value)
     {
         // if the value doesn't validate, return false
-        if ($this->validates($value) === true)
-        {
+        if ($this->validates($value) === true) {
             // call the child subclass method
             $value = call_user_func_array(array($this, 'set_value'), func_get_args());
 
             // return the success of the child class
             return $value;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -97,9 +90,9 @@ class Meta
         return $this->default_value;
     }
 
-    protected function validates($value){
+    protected function validates($value)
+    {
 
         return $this->model->validate($value, $this->validators);
-
     }
 }

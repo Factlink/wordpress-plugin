@@ -7,8 +7,8 @@ class Model
     // set when instantiated
     public $plugin;
     public $meta_prefix;
-    // set when instantiated
 
+    // set when instantiated
 
     public function __construct()
     {
@@ -30,9 +30,7 @@ class Model
     {
 
         throw new \Exception("Model: initialize method should be overridden.");
-
     }
-
 
     protected function create_post_meta($meta_type, $meta_field_name, $default_value, $validators)
     {
@@ -52,8 +50,6 @@ class Model
         return $option;
     }
 
-
-
     public function validate($value, $validators)
     {
         $messages = [];
@@ -70,15 +66,11 @@ class Model
                 // the validation fails
                 $messages[] = $validator->error_message($value);
             }
-
         }
 
-        if (count($messages))
-        {
+        if (count($messages)) {
             return $messages;
-        }
-        else
-        {
+        } else {
             return true;
         }
     }
@@ -107,5 +99,4 @@ class Model
         // include the file and instantiate
         return $this->plugin->instantiate_validator($validator_name);
     }
-
 }

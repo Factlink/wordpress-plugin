@@ -13,9 +13,6 @@ class Int extends Validator
     {
         $ival = intval($value);
 
-
-
-        return (''.$ival === ''.$value);
-
+        return ('' . $ival === '' . $value);
     }
 }

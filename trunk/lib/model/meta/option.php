@@ -30,8 +30,7 @@ class Option extends Meta
 
     public function sanitize($value)
     {
-        if (!is_array($this->validators))
-        {
+        if (!is_array($this->validators)) {
             $message = "The validators for '$this->name'' isn't an array.";
             $html_id = 'html_id_1';
             $type = 'error'; // or updated
@@ -39,8 +38,7 @@ class Option extends Meta
             add_settings_error($this->name(true), $html_id, $message, $type);
         }
 
-        if(!count($this->validators))
-        {
+        if (!count($this->validators)) {
             $message = "You didn't define any validators for '$this->name''";
             $html_id = 'html_id_1';
             $type = 'error'; // or updated
@@ -52,30 +50,22 @@ class Option extends Meta
         $messages = $this->model->validate($value, $this->validators);
 
         // if there are any errors
-        if (is_array($messages))
-        {
+        if (is_array($messages)) {
             $html_id = 'validation_error_';
             $type = 'error';
 
-            for($i = 0; $i < count($messages); $i++)
-            {
+            for ($i = 0; $i < count($messages); $i++) {
                 add_settings_error($this->name(true), $html_id . $i, $messages[$i], $type);
             }
-
         }
 
         // if there are any errors
-        if (count(get_settings_errors()))
-        {
+        if (count(get_settings_errors())) {
             // return the previous value
             return $this->get();
-        }
-        else
-        {
+        } else {
             return $value;
         }
-
-
     }
 
     protected function get_value()
@@ -87,5 +77,4 @@ class Option extends Meta
     {
         return update_option($this->name(true), $value);
     }
-
 }

@@ -24,8 +24,7 @@ class Capability
 
     public function render($view_name = null)
     {
-        if($view_name === null || $view_name === "" || $view_name === false)
-        {
+        if ($view_name === null || $view_name === "" || $view_name === false) {
             $view_name = $this->name;
         }
 

@@ -22,8 +22,7 @@ class IncludeFactlink extends \vg\wordpress_plugin\capability\Capability
 
             // and factlink is explicitly enabled for the current page
             $this->settings->page_meta->get($id) == 1
-        )
-        {
+        ) {
             $this->render();
         }
 
@@ -35,8 +34,7 @@ class IncludeFactlink extends \vg\wordpress_plugin\capability\Capability
 
             // and if factlink is enabled for the current page
             $this->settings->post_meta->get($id) == 1
-        )
-        {
+        ) {
             // render factlink
             $this->render();
         }

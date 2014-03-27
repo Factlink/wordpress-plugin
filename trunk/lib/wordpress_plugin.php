@@ -28,7 +28,6 @@ class WordpressPlugin
     public $option_1;
     public $is_configured;
 
-
     public function __construct()
     {
         // wordpress hook for initiazing a plugin
@@ -69,13 +68,10 @@ class WordpressPlugin
         // empty array means the current user always has enough rights
         $has_rights = true;
 
-        if ($wordpress_capabilities !== null)
-        {
+        if ($wordpress_capabilities !== null) {
             // iterate each of the passed wordpress capabilies
-            for ($i = 0; $i < count($wordpress_capabilities); $i++)
-            {
-                if (current_user_can($wordpress_capabilities[$i]) === false)
-                {
+            for ($i = 0; $i < count($wordpress_capabilities); $i++) {
+                if (current_user_can($wordpress_capabilities[$i]) === false) {
                     $has_rights = false;
                     break;
                 }
@@ -83,27 +79,20 @@ class WordpressPlugin
         }
 
         // only when the user has enough rights add the capability
-        if($has_rights)
-        {
+        if ($has_rights) {
             // if the action is null, execute immediatly
-            if ($action_name === null)
-            {
+            if ($action_name === null) {
                 $this->action_callback_handler($capability_name, array());
-            }
-            else
-            {
+            } else {
                 // when action is triggered run the anonymous function to instantiate the appropriate capability
-                add_action($action_name, function() use ($capability_name)
-                {
+                add_action($action_name, function () use ($capability_name) {
                     // get the function arguments
                     $args = func_get_args();
 
                     // call this when wordpress hook is called
                     $this->action_callback_handler($capability_name, $args);
-
                 }, 10, $num_args);
             }
-
         }
     }
 
@@ -111,7 +100,7 @@ class WordpressPlugin
     protected function setup_paths()
     {
         // setup the root path
-        $this->root_path = plugin_dir_path( __FILE__ );
+        $this->root_path = plugin_dir_path(__FILE__);
 
         // remove the directory of the path and add a trailing slash
         $this->root_path = dirname($this->root_path) . "/";
@@ -145,11 +134,9 @@ class WordpressPlugin
             while (false !== ($entry = readdir($handle))) {
 
                 // skip the directory operators
-                if ($entry !== '.' && $entry !== '..')
-                {
+                if ($entry !== '.' && $entry !== '..') {
                     $this->models[pathinfo($entry, PATHINFO_FILENAME)] = null;
                 }
-
             }
 
             // close the directory handle
@@ -171,17 +158,14 @@ class WordpressPlugin
         register_activation_hook($filename, array($this, 'activate_models'));
 
         // add a hook for when the plugin is deactivated
-        register_deactivation_hook( $filename, array($this, 'deactivate_models') );
-
+        register_deactivation_hook($filename, array($this, 'deactivate_models'));
     }
 
     // calls the activate method on all the models
     public function activate_models()
     {
-        foreach ($this->models as $model_name => $model)
-        {
-            if ($model === null)
-            {
+        foreach ($this->models as $model_name => $model) {
+            if ($model === null) {
                 // get the model
                 $model = $this->instantiate_model($model_name);
             }
@@ -194,10 +178,8 @@ class WordpressPlugin
     // calls the deactivate method on all the models
     public function deactivate_models()
     {
-        foreach ($this->models as $model_name => $model)
-        {
-            if ($model === null)
-            {
+        foreach ($this->models as $model_name => $model) {
+            if ($model === null) {
                 // get the model
                 $model = $this->instantiate_model($model_name);
             }
@@ -211,29 +193,28 @@ class WordpressPlugin
     private function load_dependencies()
     {
         // load the utils
-        include ("$this->lib_path/util/util.php");
+        include("$this->lib_path/util/util.php");
 
         // load the validators
-        include ("$this->lib_path/validator/validator.php");
+        include("$this->lib_path/validator/validator.php");
 
         // load the capability
-        include ("$this->lib_path/capability/capability.php");
+        include("$this->lib_path/capability/capability.php");
 
         // load the model
-        include ("$this->lib_path/model/model.php");
+        include("$this->lib_path/model/model.php");
 
         // load the meta class
-        include ("$this->lib_path/model/meta/meta.php");
-        include ("$this->lib_path/model/meta/option.php");
-        include ("$this->lib_path/model/meta/post.php");
+        include("$this->lib_path/model/meta/meta.php");
+        include("$this->lib_path/model/meta/option.php");
+        include("$this->lib_path/model/meta/post.php");
     }
 
     // is called when registered wordpress action is called
     private function action_callback_handler($capability_name, $arguments)
     {
         // if the capabilities array isn't instantiated, instantiate
-        if ($this->capabilities === null)
-        {
+        if ($this->capabilities === null) {
             $this->capabilities = [];
         }
 
@@ -278,14 +259,11 @@ class WordpressPlugin
         $class = get_class($capability);
 
         // iterate all the models
-        foreach ($this->models as $model_name => $model)
-        {
+        foreach ($this->models as $model_name => $model) {
             // if the property exists on the capability
-            if (property_exists($class, $model_name))
-            {
+            if (property_exists($class, $model_name)) {
                 // check if the model is already loaded
-                if ($model === null)
-                {
+                if ($model === null) {
                     // instantiate and store the new model
                     // TODO: should be moved to load_model
                     $this->models[$model_name] = $this->instantiate_model($model_name);
@@ -347,5 +325,4 @@ class WordpressPlugin
         // return the newly created model
         return $validator;
     }
-
 }
