@@ -35,10 +35,6 @@ class AdminPage extends \vg\wordpress_plugin\capability\Capability
         // set the used option group
         $this->option_group = $this->settings->enabled_for_posts->group;
 
-        // the configuration notice will be disabled
-        // TODO: should be placed somewhere else, because now still displays one time when configuration is loaded
-        $this->settings->is_configured->set(1);
-
         // render the admin page
         $this->render();
     }
