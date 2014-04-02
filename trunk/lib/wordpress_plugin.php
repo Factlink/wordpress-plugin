@@ -7,12 +7,8 @@ namespace vg\wordpress_plugin;
 
 class WordpressPlugin
 {
-    // global settings which can be redefined by the childclass
-
     public $namespace = 'vg\wordpress_plugin';
     public $meta_prefix = '';
-
-    // global settings which can be redefined by the childclass
 
     public $root_path;
     public $app_path;
@@ -53,10 +49,9 @@ class WordpressPlugin
         $this->setup_capabilities();
     }
 
-    // set all the needed wordpress hooks
+    // stub method for setting up all the needed wordpress hooks
     protected function setup_capabilities()
     {
-        //
         throw new \Exception("WordpressPlugin: setup_capabilities() should be overridden.");
     }
 
@@ -68,8 +63,8 @@ class WordpressPlugin
         // empty array means the current user always has enough rights
         $has_rights = true;
 
+        // determine if the user has enough rights
         if ($wordpress_capabilities !== null) {
-            // iterate each of the passed wordpress capabilies
             for ($i = 0; $i < count($wordpress_capabilities); $i++) {
                 if (current_user_can($wordpress_capabilities[$i]) === false) {
                     $has_rights = false;
@@ -78,9 +73,8 @@ class WordpressPlugin
             }
         }
 
-        // only when the user has enough rights add the capability
         if ($has_rights) {
-            // if the action is null, execute immediatly
+            // if the action is null, execute immediately
             if ($action_name === null) {
                 $this->action_callback_handler($capability_name, array());
             } else {
@@ -89,7 +83,7 @@ class WordpressPlugin
                     // get the function arguments
                     $args = func_get_args();
 
-                    // call this when wordpress hook is called
+                    // call action callback handler when wordpress hook is called
                     $this->action_callback_handler($capability_name, $args);
                 }, 10, $num_args);
             }
@@ -99,38 +93,23 @@ class WordpressPlugin
     // setup application paths
     protected function setup_paths()
     {
-        // setup the root path
         $this->root_path = plugin_dir_path(__FILE__);
-
-        // remove the directory of the path and add a trailing slash
         $this->root_path = dirname($this->root_path) . "/";
-
-        // setup the application path
         $this->app_path = $this->root_path . "app/";
-
-        // setup lib path
         $this->lib_path = $this->root_path . "lib/";
-
-        // setup capability path
         $this->capability_path = $this->app_path . "capability/";
-
-        // setup model path
         $this->model_path = $this->app_path . "model/";
-
-        // setup the view path
         $this->view_path = $this->app_path . "view/";
     }
 
     // searches and stores the available models
     protected function store_available_models()
     {
-        // instantiate the models array
         $this->models = [];
 
-        // list all
+        // list all the models stored in the models directory
         if ($handle = opendir($this->model_path)) {
 
-            // loop over the directory
             while (false !== ($entry = readdir($handle))) {
 
                 // skip the directory operators
@@ -139,26 +118,26 @@ class WordpressPlugin
                 }
             }
 
-            // close the directory handle
             closedir($handle);
         }
     }
 
-    // global plugin hooks: activation / deactivation / uninstall?
+    // global wordpress plugin hooks for activation / deactivation / uninstall
     private function setup_global_plugin_hooks()
     {
-        // generate the filename from the plugin class. So it's important it's named the same!!
+        // generate the filename from the plugin class. So it's important the class is named the same as the file
         // TODO: check if the filename and the classname of the plugin are the same
-        $filename = \vg\wordpress_plugin\util\Util::from_camel_case(get_class($this)) . '.php';
-
-        // add the full absoluate path
-        $filename = $this->root_path . $filename;
+        $file = \vg\wordpress_plugin\util\Util::from_camel_case(get_class($this)) . '.php';
+        $file = $this->root_path . $file;
 
         // add wordpress activation hook
-        register_activation_hook($filename, array($this, 'activate_models'));
+        register_activation_hook($file, array($this, 'activate_models'));
 
         // add a hook for when the plugin is deactivated
-        register_deactivation_hook($filename, array($this, 'deactivate_models'));
+        register_deactivation_hook($file, array($this, 'deactivate_models'));
+
+        // when plugin is uninstalled, call the uninstall method on all the models
+        register_uninstall_hook($file, array($this, 'uninstall_models'));
     }
 
     // calls the activate method on all the models
@@ -186,6 +165,20 @@ class WordpressPlugin
 
             // run the activation method on the model
             $model->deactivate();
+        }
+    }
+
+    // call the uninstall method on all the models
+    public function uninstall_models()
+    {
+        foreach ($this->models as $model_name => $model) {
+            if ($model === null) {
+                // get the model
+                $model = $this->instantiate_model($model_name);
+            }
+
+            // run the activation method on the model
+            $model->uninstall();
         }
     }
 
