@@ -135,9 +135,6 @@ class WordpressPlugin
 
         // add a hook for when the plugin is deactivated
         register_deactivation_hook($file, array($this, 'deactivate_models'));
-
-        // when plugin is uninstalled, call the uninstall method on all the models
-        register_uninstall_hook($file, array($this, 'uninstall_models'));
     }
 
     // calls the activate method on all the models
@@ -165,20 +162,6 @@ class WordpressPlugin
 
             // run the activation method on the model
             $model->deactivate();
-        }
-    }
-
-    // call the uninstall method on all the models
-    public function uninstall_models()
-    {
-        foreach ($this->models as $model_name => $model) {
-            if ($model === null) {
-                // get the model
-                $model = $this->instantiate_model($model_name);
-            }
-
-            // run the activation method on the model
-            $model->uninstall();
         }
     }
 

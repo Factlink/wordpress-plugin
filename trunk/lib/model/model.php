@@ -21,10 +21,6 @@ class Model
     {
         // can be overridden by the child class
     }
-    public function uninstall()
-    {
-        // stub method for the uninstall method
-    }
     public function initialize()
     {
 
