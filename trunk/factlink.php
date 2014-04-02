@@ -46,4 +46,4 @@ class Factlink extends WordpressPluginController
 }
 
 // create and execute the factlink plugin
-$factlink_plugin = new Factlink();
+new Factlink();

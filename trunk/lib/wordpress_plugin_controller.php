@@ -24,9 +24,7 @@ class WordpressPluginController
         if (version_compare(PHP_VERSION, '5.3.0') >= 0) {
             // wordpress hook for initiazing a plugin
             add_action('init', array($this, 'initialize'));
-        }
-        else
-        {
+        } else {
             // when the admin notices are rendered, show the incompatibility message
             add_action('admin_notices', array($this, 'incompatibility_message'));
         }
@@ -75,8 +73,6 @@ class WordpressPluginController
             }
         }
 
-
-
         if ($has_rights) {
             // if the action is null, execute immediately
             if ($action_name === null) {
@@ -90,7 +86,6 @@ class WordpressPluginController
 
                     // call action callback handler when wordpress hook is called
                     $object->action_callback_handler($capability_name, $args);
-
                 }, 10, $num_args);
             }
         }
@@ -99,8 +94,8 @@ class WordpressPluginController
     // setup application paths
     protected function setup_paths()
     {
-        $this->root_path = plugin_dir_path(__FILE__);
-        $this->root_path = dirname($this->root_path) . "/";
+        $file_path = plugin_dir_path(__FILE__);
+        $this->root_path = dirname($file_path) . "/";
         $this->app_path = $this->root_path . "app/";
         $this->lib_path = $this->root_path . "lib/";
         $this->capability_path = $this->app_path . "capability/";
@@ -136,8 +131,7 @@ class WordpressPluginController
         $file = $this->root_path . $file;
 
         // check if the file actually exists
-        if (!file_exists($file))
-        {
+        if (!file_exists($file)) {
             throw new \Exception("The classname '" . get_class($this) . "' doesn't match with the filename '" . $file . "'");
         }
 
@@ -176,7 +170,6 @@ class WordpressPluginController
         }
     }
 
-    // load all the needed dependencies
     private function load_dependencies()
     {
         include("$this->lib_path/util/util.php");

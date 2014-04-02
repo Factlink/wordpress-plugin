@@ -49,11 +49,4 @@ class Settings extends \vg\wordpress_plugin\model\Model
         // set the state of the is_configured to 0 -> not configured
         $this->is_configured->set(0);
     }
-
-    public function deactivate()
-    {
-        // when the plugin is deactivated
-        // set the state of the is_configured to 0 -> not configured
-        $this->is_configured->set(0);
-    }
 }
