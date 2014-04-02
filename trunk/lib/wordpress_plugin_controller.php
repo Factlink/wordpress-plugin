@@ -199,7 +199,7 @@ class WordpressPluginController
         include "$this->capability_path" . "$capability_name.php";
 
         // get the class name of the capability from snake case
-        $class_name = util\Util::to_camel_case($capability_name, true);
+        $class_name = vg\wordpress_plugin\util\Util::to_camel_case($capability_name, true);
         $class_name = "$this->namespace\\capability\\" . $class_name;
 
         $plugin = $this;
@@ -216,7 +216,6 @@ class WordpressPluginController
     }
 
     // inject models into the capability
-    // TODO: should raise error when property is defined, but model doesn't exist
     private function inject_models($capability)
     {
         $class_name = get_class($capability);
@@ -229,10 +228,7 @@ class WordpressPluginController
 
                 if ($model === null) {
 
-                    // TODO: should be moved to load_model
                     $this->models[$model_name] = $this->instantiate_model($model_name);
-
-                    // update the local $model
                     $model = $this->models[$model_name];
                 }
 
@@ -242,14 +238,12 @@ class WordpressPluginController
         }
     }
 
-    // load and create a model
-    // TODO: refactor, so instantiate model and capability don't use the same code
     private function instantiate_model($model_name)
     {
         include "$this->model_path" . "$model_name.php";
 
         // get the class name of the capability from snake case
-        $class_name = util\Util::to_camel_case($model_name, true);
+        $class_name = vg\wordpress_plugin\util\Util::to_camel_case($model_name, true);
         $class_name = "$this->namespace\\model\\" . $class_name;
 
         $model = new $class_name();
@@ -261,14 +255,13 @@ class WordpressPluginController
         return $model;
     }
 
-    // TODO: refactor, so instantiate model and capability don't use the same code
     public function instantiate_validator($validator_name)
     {
         // include the model
         include "$this->lib_path" . "validator/$validator_name.php";
 
         // get the class name of the capability from snake case
-        $class_name = util\Util::to_camel_case($validator_name, true);
+        $class_name = vg\wordpress_plugin\util\Util::to_camel_case($validator_name, true);
         $class_name = "vg\\wordpress_plugin\\validator\\" . $class_name;
 
         $validator = new $class_name();
