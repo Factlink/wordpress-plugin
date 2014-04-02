@@ -1,11 +1,6 @@
 <?php
 
-namespace vg\wordpress_plugin;
-
-// TODO: when rendering views access to methods like: form / input_field / .. creators
-// TODO: add localization
-
-class WordpressPlugin
+class WordpressPluginController
 {
     public $namespace = 'vg\wordpress_plugin';
     public $meta_prefix = '';
@@ -26,8 +21,15 @@ class WordpressPlugin
 
     public function __construct()
     {
-        // wordpress hook for initiazing a plugin
-        add_action('init', array($this, 'initialize'));
+        if (version_compare(PHP_VERSION, '5.3.0') >= 0) {
+            // wordpress hook for initiazing a plugin
+            add_action('init', array($this, 'initialize'));
+        }
+        else
+        {
+            // when the admin notices are rendered, show the incompatibility message
+            add_action('admin_notices', array($this, 'incompatibility_message'));
+        }
     }
 
     // does the actual plugin initialization
@@ -58,8 +60,6 @@ class WordpressPlugin
     // add a capability on a wordpress trigger
     protected function add_capability($capability_name, $action_name = null, $wordpress_capabilities = null, $num_args = 1)
     {
-        // TODO: validators should have arguments, like min/max length, etc
-
         // empty array means the current user always has enough rights
         $has_rights = true;
 
@@ -126,9 +126,14 @@ class WordpressPlugin
     private function setup_global_plugin_hooks()
     {
         // generate the filename from the plugin class. So it's important the class is named the same as the file
-        // TODO: check if the filename and the classname of the plugin are the same
         $file = \vg\wordpress_plugin\util\Util::from_camel_case(get_class($this)) . '.php';
         $file = $this->root_path . $file;
+
+        // check if the file actually exists
+        if (!file_exists($file))
+        {
+            throw new \Exception("The classname '" . get_class($this) . "' doesn't match with the filename '" . $file . "'");
+        }
 
         // add wordpress activation hook
         register_activation_hook($file, array($this, 'activate_models'));
@@ -191,7 +196,6 @@ class WordpressPlugin
     // create the capability
     private function instantiate_capability($capability_name, $arguments)
     {
-        // TODO: only when capability is undefined?
         include "$this->capability_path" . "$capability_name.php";
 
         // get the class name of the capability from snake case
@@ -270,5 +274,11 @@ class WordpressPlugin
         $validator = new $class_name();
 
         return $validator;
+    }
+
+    // message for when the php version isn't compatibel
+    public function incompatibility_message()
+    {
+        echo "<div class='error'><p>Factlink plugin: You current PHP version (" . phpversion() . ") doesn't comply with >= PHP 5.3.0. Please update your server.</div>";
     }
 }

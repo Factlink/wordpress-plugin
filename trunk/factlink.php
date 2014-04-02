@@ -16,9 +16,9 @@ Author URI: https://factlink.com/
 defined('ABSPATH') or die ('Cannot access pages directly.');
 
 // load the wordpress plugin class using the wordpress url
-include plugin_dir_path(__FILE__) . '/lib/wordpress_plugin.php';
+include plugin_dir_path(__FILE__) . '/lib/wordpress_plugin_controller.php';
 
-class Factlink extends \vg\wordpress_plugin\WordpressPlugin
+class Factlink extends WordpressPluginController
 {
     // set the namespace used by the custom wordpress plugin
     public $namespace = 'factlink';
