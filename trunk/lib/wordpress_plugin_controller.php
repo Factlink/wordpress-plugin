@@ -189,7 +189,7 @@ class WordpressPluginController
     }
 
     // is called when registered wordpress action is called
-    private function action_callback_handler($capability_name, $arguments)
+    public function action_callback_handler($capability_name, $arguments)
     {
         if ($this->capabilities === null) {
             $this->capabilities = array();
