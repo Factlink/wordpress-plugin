@@ -15,19 +15,17 @@ Author URI: https://factlink.com/
 // for protecting files from direct access
 defined('ABSPATH') or die ('Cannot access pages directly.');
 
-// load the wordpress plugin class
+// load the wordpress plugin class using the wordpress url
 include plugin_dir_path(__FILE__) . '/lib/wordpress_plugin.php';
 
-// declare the factlink class
 class Factlink extends \vg\wordpress_plugin\WordpressPlugin
 {
-    // set the namespace
+    // set the namespace used by the custom wordpress plugin
     public $namespace = 'factlink';
 
-    // prefix for the meta data models
+    // set prefix for the meta data models, gets prepended to database entries
     public $meta_prefix = 'factlink_';
 
-    // add all the capabilities
     protected function setup_capabilities()
     {
         // capability for displaying a notice when factlink isn't configured
@@ -47,5 +45,5 @@ class Factlink extends \vg\wordpress_plugin\WordpressPlugin
     }
 }
 
-// create a new factlink instance in the factlink namespace
+// create and execute the factlink plugin
 $factlink_plugin = new Factlink();

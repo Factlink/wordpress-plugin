@@ -4,7 +4,6 @@ namespace factlink\capability;
 
 class ConfigurationNotice extends \vg\wordpress_plugin\capability\Capability
 {
-    // public members are available in the view
     public $url;
 
     /***
@@ -20,12 +19,8 @@ class ConfigurationNotice extends \vg\wordpress_plugin\capability\Capability
             $this->settings->is_configured->set(1);
         }
 
-        // if not yet configured
         if ($this->settings->is_configured->get() == 0) {
-            // get the menu url
             $this->url = $this->settings->menu_url;
-
-            // render the configuration notice
             $this->render();
         }
     }

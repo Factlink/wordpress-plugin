@@ -40,7 +40,6 @@ class Option extends Meta
         // validate the value with the validators, returns true OR array with error messages
         $messages = $this->model->validate($value, $this->validators);
 
-        // if there are any errors
         if (is_array($messages)) {
             $html_id = 'validation_error_';
             $type = 'error';
@@ -50,9 +49,8 @@ class Option extends Meta
             }
         }
 
-        // if there are any errors
+        // if there are any errors return the previous value, because the value gets always updated
         if (count(get_settings_errors())) {
-            // return the previous value
             return $this->get();
         } else {
             return $value;

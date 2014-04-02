@@ -15,7 +15,7 @@ class DisableComments extends \vg\wordpress_plugin\capability\Capability
     public function initialize()
     {
         if ($this->settings->disable_global_comments->get() == 1) {
-            // add a filter to when wordpress asks if comments are open for the current post, can return false
+            // add a filter for when wordpress asks if comments are open for the current post
             add_filter('comments_open', array($this, 'disable_comments_filter'));
         }
     }

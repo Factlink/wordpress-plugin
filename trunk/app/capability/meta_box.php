@@ -31,13 +31,13 @@ class MetaBox extends \vg\wordpress_plugin\capability\Capability
         }
     }
 
-    public function render_page_meta_box($post_data)
+    public function render_page_meta_box()
     {
         $this->meta_name = $this->settings->page_meta->name;
         $this->render();
     }
 
-    public function render_post_meta_box($post_data)
+    public function render_post_meta_box()
     {
         $this->meta_name = $this->settings->post_meta->name;
         $this->render();

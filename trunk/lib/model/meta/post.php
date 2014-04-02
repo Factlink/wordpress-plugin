@@ -12,6 +12,7 @@ class Post extends Meta
 
         $this->type = $type;
 
+        // add a wordpress hook for when a post is saved, the callback is called
         add_action('save_post', array($this, 'save_data'));
     }
 
@@ -32,27 +33,22 @@ class Post extends Meta
         if (!isset($_POST[$this->name]) || !isset($_POST['post_type']))
             return $post_id;
 
-        // get the post type
         $post_type = $_POST['post_type'];
 
-        // if not is the same type
         if ($post_type != $this->type)
             return $post_id;
 
-        // get the post data
         $post_data = $_POST[$this->name];
 
-        // try to update the data
         $this->set($post_data, $post_id);
 
         // TODO: save post error?
-
-        // return the post id?
         return $post_id;
     }
 
     protected function get_value($post_id)
     {
+        // call the wordpress mthod get_post_meta, to access the actual database
         $return = get_post_meta($post_id, $this->name, true);
 
         return $return;
@@ -60,7 +56,7 @@ class Post extends Meta
 
     protected function set_value($value, $post_id)
     {
-        // returns new meta id, true on success or false on failure
+        // returns meta id when option is new or true on success or false on failure
         $return = update_post_meta($post_id, $this->name, $value);
 
         if ($return === false) {
