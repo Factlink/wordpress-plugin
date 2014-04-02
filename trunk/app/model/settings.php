@@ -25,22 +25,22 @@ class Settings extends \vg\wordpress_plugin\model\Model
         $this->menu_url = get_admin_url(null, $this->menu_parent_slug . "?page=" . $this->menu_slug);
 
         // setting if factlink is enabled for all the pages
-        $this->enabled_for_pages = $this->create_option_meta('enabled_for_pages', 'global_settings', 1, ['int']);
+        $this->enabled_for_pages = $this->create_option_meta('enabled_for_pages', 'global_settings', 1, array('int'));
 
         // setting if factlink is enabled for all the posts
-        $this->enabled_for_posts = $this->create_option_meta('enabled_for_posts', 'global_settings', 1, ['int']);
+        $this->enabled_for_posts = $this->create_option_meta('enabled_for_posts', 'global_settings', 1, array('int'));
 
         // setting to display configuration message as long factlink isn't configured
-        $this->is_configured = $this->create_option_meta('is_configured', 'global_settings', 0, ['int']);
+        $this->is_configured = $this->create_option_meta('is_configured', 'global_settings', 0, array('int'));
 
         // settings for totally disabling global comments
-        $this->disable_global_comments = $this->create_option_meta('disable_global_comments', 'global_settings', 1, ['int']);
+        $this->disable_global_comments = $this->create_option_meta('disable_global_comments', 'global_settings', 1, array('int'));
 
         // get a post meta data object
-        $this->post_meta = $this->create_post_meta('post', 'is_enabled', 1, ['int']);
+        $this->post_meta = $this->create_post_meta('post', 'is_enabled', 1, array('int'));
 
         // create page meta object
-        $this->page_meta = $this->create_post_meta('page', 'is_enabled', 1, ['int']);
+        $this->page_meta = $this->create_post_meta('page', 'is_enabled', 1, array('int'));
     }
 
     public function activate()
