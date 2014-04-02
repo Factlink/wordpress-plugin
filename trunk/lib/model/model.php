@@ -76,7 +76,7 @@ class Model
             return Model::$loaded_validators[$validator_name];
         } else {
 
-            $validator = $this->instantiate_validator($validator_name);
+            $validator = $this->plugin->instantiate_validator($validator_name);
 
             Model::$loaded_validators[$validator_name] = $validator;
 
