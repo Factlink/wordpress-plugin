@@ -63,6 +63,8 @@ class WordpressPluginController
         // empty array means the current user always has enough rights
         $has_rights = true;
 
+        $object = $this;
+
         // determine if the user has enough rights
         if ($wordpress_capabilities !== null) {
             for ($i = 0; $i < count($wordpress_capabilities); $i++) {
@@ -73,18 +75,22 @@ class WordpressPluginController
             }
         }
 
+
+
         if ($has_rights) {
             // if the action is null, execute immediately
             if ($action_name === null) {
                 $this->action_callback_handler($capability_name, array());
             } else {
+
                 // when action is triggered run the anonymous function to instantiate the appropriate capability
-                add_action($action_name, function () use ($capability_name) {
+                add_action($action_name, function () use ($capability_name, $object) {
                     // get the function arguments
                     $args = func_get_args();
 
                     // call action callback handler when wordpress hook is called
-                    $this->action_callback_handler($capability_name, $args);
+                    $object->action_callback_handler($capability_name, $args);
+
                 }, 10, $num_args);
             }
         }
