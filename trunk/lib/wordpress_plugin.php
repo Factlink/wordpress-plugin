@@ -105,7 +105,7 @@ class WordpressPlugin
     // searches and stores the available models
     protected function store_available_models()
     {
-        $this->models = [];
+        $this->models = array();
 
         // list all the models stored in the models directory
         if ($handle = opendir($this->model_path)) {
@@ -185,19 +185,10 @@ class WordpressPlugin
     // load all the needed dependencies
     private function load_dependencies()
     {
-        // load the utils
         include("$this->lib_path/util/util.php");
-
-        // load the validators
         include("$this->lib_path/validator/validator.php");
-
-        // load the capability
         include("$this->lib_path/capability/capability.php");
-
-        // load the model
         include("$this->lib_path/model/model.php");
-
-        // load the meta class
         include("$this->lib_path/model/meta/meta.php");
         include("$this->lib_path/model/meta/option.php");
         include("$this->lib_path/model/meta/post.php");
@@ -206,9 +197,8 @@ class WordpressPlugin
     // is called when registered wordpress action is called
     private function action_callback_handler($capability_name, $arguments)
     {
-        // if the capabilities array isn't instantiated, instantiate
         if ($this->capabilities === null) {
-            $this->capabilities = [];
+            $this->capabilities = array();
         }
 
         // instantiate and store the capability
@@ -218,29 +208,23 @@ class WordpressPlugin
     // create the capability
     private function instantiate_capability($capability_name, $arguments)
     {
-        // load the capability
         // TODO: only when capability is undefined?
         include "$this->capability_path" . "$capability_name.php";
 
-        // get the class name of the capability
+        // get the class name of the capability from snake case
         $class_name = util\Util::to_camel_case($capability_name, true);
-
-        // add the namespace
         $class_name = "$this->namespace\\capability\\" . $class_name;
 
-        // get the appropriate plugin
         $plugin = $this;
 
-        // create a new capability
         $capability = new $class_name($plugin, $capability_name);
 
-        // check if the available models can be injected
+        // check if the available models can be injected into the capability
         $this->inject_models($capability);
 
         // call the initialize method on the capability object with the arguments of the wordpress action
         call_user_func_array(array($capability, 'initialize'), $arguments);
 
-        // return the capability
         return $capability;
     }
 
@@ -248,16 +232,16 @@ class WordpressPlugin
     // TODO: should raise error when property is defined, but model doesn't exist
     private function inject_models($capability)
     {
-        // get the instance class
-        $class = get_class($capability);
+        $class_name = get_class($capability);
 
-        // iterate all the models
+        // check if any of the models has the same name as a property on a capability
+        // if so, set the model on the capability
         foreach ($this->models as $model_name => $model) {
-            // if the property exists on the capability
-            if (property_exists($class, $model_name)) {
-                // check if the model is already loaded
+
+            if (property_exists($class_name, $model_name)) {
+
                 if ($model === null) {
-                    // instantiate and store the new model
+
                     // TODO: should be moved to load_model
                     $this->models[$model_name] = $this->instantiate_model($model_name);
 
@@ -265,7 +249,7 @@ class WordpressPlugin
                     $model = $this->models[$model_name];
                 }
 
-                // inject the model
+                // using {} to dynamically set a property on an object
                 $capability->{$model_name} = $model;
             }
         }
@@ -275,28 +259,18 @@ class WordpressPlugin
     // TODO: refactor, so instantiate model and capability don't use the same code
     private function instantiate_model($model_name)
     {
-        // include the model
         include "$this->model_path" . "$model_name.php";
 
-        // get the class name of the capability
+        // get the class name of the capability from snake case
         $class_name = util\Util::to_camel_case($model_name, true);
-
-        // add the namespace
         $class_name = "$this->namespace\\model\\" . $class_name;
 
-        // instantiate the actual model
         $model = new $class_name();
 
-        // inject into the model
         $model->plugin = $this;
-
-        // set the config
         $model->meta_prefix = $this->meta_prefix;
-
-        // call the constructor
         $model->initialize();
 
-        // return the newly created model
         return $model;
     }
 
@@ -306,16 +280,12 @@ class WordpressPlugin
         // include the model
         include "$this->lib_path" . "validator/$validator_name.php";
 
-        // get the class name of the capability
+        // get the class name of the capability from snake case
         $class_name = util\Util::to_camel_case($validator_name, true);
-
-        // add the namespace
         $class_name = "vg\\wordpress_plugin\\validator\\" . $class_name;
 
-        // instantiate the actual model
         $validator = new $class_name();
 
-        // return the newly created model
         return $validator;
     }
 }

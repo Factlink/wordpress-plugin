@@ -4,66 +4,61 @@ namespace vg\wordpress_plugin\model;
 
 class Model
 {
-    // set when instantiated
     public $plugin;
     public $meta_prefix;
 
-    // set when instantiated
-
     public function __construct()
     {
-        // instantiate the options array
-        $this->options = [];
+        $this->options = array();
     }
 
+    // stub methods
     public function activate()
     {
         // can be overridden by the child class
     }
-
     public function deactivate()
     {
         // can be overridden by the child class
     }
-
+    public function uninstall()
+    {
+        // stub method for the uninstall method
+    }
     public function initialize()
     {
 
         throw new \Exception("Model: initialize method should be overridden.");
     }
 
+    // create a new post meta model which interacts with the metadata of the wordpress post database table
     protected function create_post_meta($meta_type, $meta_field_name, $default_value, $validators)
     {
         $meta = new meta\Post($meta_field_name, $meta_type, $default_value, $validators, $this);
-
         return $meta;
     }
 
+    // create a new option meta model which interacts with the metadata of the wordpress options database table
     protected function create_option_meta($option_name, $option_group, $default_value, $validators)
     {
         // TODO: throws error if field already exists
-
-        // instantiate a new option
         $option = new meta\Option($option_name, $option_group, $default_value, $validators, $this);
-
-        // return the option
         return $option;
     }
 
+    // validate a value using the passed validators
+    // returns true on success
+    // returns $messages array on fail
     public function validate($value, $validators)
     {
-        $messages = [];
+        $messages = array();
 
-        // iterate each of the validators
         for ($i = 0; $i < count($validators); $i++) {
 
-            // get the validator
             $validator = $this->get_validator($validators[$i]);
 
-            // store the error message somewhere?
             if ($validator->validate($value) === false) {
 
-                // the validation fails
                 $messages[] = $validator->error_message($value);
             }
         }
@@ -76,27 +71,20 @@ class Model
     }
 
     // TODO: the storing of singletons should be done in the plugin class
-    private static $loaded_validators = [];
+    private static $loaded_validators = array();
 
+    // get a validator instance by name
     private function get_validator($validator_name)
     {
         if (array_key_exists($validator_name, Model::$loaded_validators)) {
             return Model::$loaded_validators[$validator_name];
         } else {
-            // get the validator
-            $validator = $this->load_validator($validator_name);
 
-            // store with the instantiated validators
+            $validator = $this->instantiate_validator($validator_name);
+
             Model::$loaded_validators[$validator_name] = $validator;
 
-            // return the validator
             return $validator;
         }
-    }
-
-    private function load_validator($validator_name)
-    {
-        // include the file and instantiate
-        return $this->plugin->instantiate_validator($validator_name);
     }
 }
