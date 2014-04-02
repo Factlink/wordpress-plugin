@@ -9,22 +9,13 @@ class Option extends Meta
 
     public function __construct($name, $group, $default_value, $validators, $model)
     {
-        // call the parent constructor
         parent::__construct($name, $default_value, $validators, $model);
-
-        // store the group
         $this->group = $group;
     }
 
     public function register()
     {
-        // add a callback function for wordpress to register to appropriate settings
-        add_action('admin_init', array($this, 'register_option_handler'));
-    }
-
-    public function register_option_handler()
-    {
-        // register the setting otherwise wordpress won't save it when posted
+        // register the setting within wordpress, otherwise the setting cannot be saved to the wordpress database
         register_setting($this->group, $this->name(), array($this, 'sanitize'));
     }
 
