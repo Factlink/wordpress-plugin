@@ -37,7 +37,6 @@ class Model
     // create a new option meta model which interacts with the metadata of the wordpress options database table
     protected function create_option_meta($option_name, $option_group, $default_value, $validators)
     {
-        // TODO: throws error if field already exists
         $option = new meta\Option($option_name, $option_group, $default_value, $validators, $this);
         return $option;
     }
@@ -66,7 +65,6 @@ class Model
         }
     }
 
-    // TODO: the storing of singletons should be done in the plugin class
     private static $loaded_validators = array();
 
     // get a validator instance by name

@@ -42,7 +42,6 @@ class Post extends Meta
 
         $this->set($post_data, $post_id);
 
-        // TODO: save post error?
         return $post_id;
     }
 

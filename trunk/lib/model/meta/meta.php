@@ -23,7 +23,6 @@ class Meta
     {
         $args = func_get_args();
 
-        // TODO: remove the function call with variable amount of arguments, the child implementation should handle that itself
         // call the overridden method with all the passed arguments
         $value = call_user_func_array(array($this, 'get_value'), $args);
 

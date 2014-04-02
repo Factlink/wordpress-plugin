@@ -4,8 +4,6 @@ namespace factlink\capability;
 
 class DisableComments extends \vg\wordpress_plugin\capability\Capability
 {
-    // TODO: remove / replace the comments link from the top admin bar / left admin bar
-
     /***
      * inject:
      * @var \factlink\model\Settings
