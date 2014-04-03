@@ -22,11 +22,18 @@ class MetaBox extends \vg\wordpress_plugin\capability\Capability
         $title = 'FactLink settings';
         $context = 'advanced';
 
-        if ($this->settings->enabled_for_pages->get() == 1 && $post_type == 'page') {
+        if (
+            $this->settings->enabled_for_pages->get() == 1 &&
+            $post_type == 'page' &&
+            $this->settings->enabled_for_all_pages->get() == 0
+        ) {
             add_meta_box($id, $title, array($this, 'render_page_meta_box'), 'page', $context);
         }
 
-        if ($this->settings->enabled_for_posts->get() == 1 && $post_type == 'post') {
+        if ($this->settings->enabled_for_posts->get() == 1 &&
+            $post_type == 'post' &&
+            $this->settings->enabled_for_all_posts->get() == 0
+        ) {
             add_meta_box($id, $title, array($this, 'render_post_meta_box'), 'post', $context);
         }
     }
