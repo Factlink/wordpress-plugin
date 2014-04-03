@@ -22,35 +22,30 @@ class WordpressPluginController
     public function __construct()
     {
         if (version_compare(PHP_VERSION, '5.3.0') >= 0) {
+
+            // setup the paths for the plugin
+            $this->setup_paths();
+
+            // load all the dependencies
+            $this->load_dependencies();
+
+            // check available models
+            $this->store_available_models();
+
+            // set activate / deactivate hooks
+            $this->setup_global_plugin_hooks();
+
             // wordpress hook for initiazing a plugin
-            add_action('init', array($this, 'initialize'));
+            add_action('init', array($this, 'setup_capabilities'));
+
         } else {
             // when the admin notices are rendered, show the incompatibility message
             add_action('admin_notices', array($this, 'incompatibility_message'));
         }
     }
 
-    // does the actual plugin initialization
-    public function initialize()
-    {
-        // setup the paths for the plugin
-        $this->setup_paths();
-
-        // load all the dependencies
-        $this->load_dependencies();
-
-        // check available models
-        $this->store_available_models();
-
-        // set activate / deactivate hooks
-        $this->setup_global_plugin_hooks();
-
-        // setup the hooks
-        $this->setup_capabilities();
-    }
-
     // stub method for setting up all the needed wordpress hooks
-    protected function setup_capabilities()
+    public function setup_capabilities()
     {
         throw new \Exception("WordpressPlugin: setup_capabilities() should be overridden.");
     }

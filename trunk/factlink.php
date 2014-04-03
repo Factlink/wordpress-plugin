@@ -26,7 +26,7 @@ class Factlink extends WordpressPluginController
     // set prefix for the meta data models, gets prepended to database entries
     public $meta_prefix = 'factlink_';
 
-    protected function setup_capabilities()
+    public function setup_capabilities()
     {
         // capability for displaying a notice when factlink isn't configured
         $this->add_capability('configuration_notice', 'admin_notices', array('manage_options'));
