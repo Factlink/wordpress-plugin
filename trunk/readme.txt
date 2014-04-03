@@ -1,8 +1,8 @@
 === Plugin Name ===
 Contributors: factlink
 Tags: discussions, annotation, credibility, social network
-Requires at least: 3.0.1
-Tested up to: 3.8
+Requires at least: 3.1.0
+Tested up to: 3.8.1
 Stable tag: trunk
 
 Great discussions on your site. Readers join discussions inside your articles and invite their friends. You get engaged users, and more of them.
@@ -39,14 +39,20 @@ You can find more information at [https://factlink.com/publisher](https://factli
 
 == Changelog ==
 
+= 2.0 =
+* NEW: Factlink configuration panel
+* NEW: Ability to enable Factlink for all pages and/or posts
+* NEW: Ability to enable Factlink for single pages and/or posts
+* NEW: Ability to replace Wordpress comments with Factlink
+
 = 1.1 =
-Updated description of Factlink plugin.
+* IMPROVED: Updated description of Factlink plugin.
 
 = 1.0 =
-Updated Factlink loader to use the new loader scripts.
+* IMPROVED: Updated Factlink loader to use the new loader scripts.
 
 = 0.2 =
-Load factlink asynchronously to ensure your site isn't slowed down.
+* IMPROVED: Load factlink asynchronously to ensure your site isn't slowed down.
 
 = 0.1 =
-First version
+* NEW: First version
