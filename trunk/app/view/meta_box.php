@@ -3,5 +3,5 @@
        id="<?php echo $this->meta_name; ?>" <?php if ($this->meta_value == 1) {
     echo 'checked';
 } ?>>
-<label for="<?php echo $this->meta_name; ?>">Enable factlink for this item</label>
+<label for="<?php echo $this->meta_name; ?>">Enable Factlink for this item</label>
 <?php wp_nonce_field($this->meta_name . '_nonce_action', $this->meta_name . '_nonce'); ?>
