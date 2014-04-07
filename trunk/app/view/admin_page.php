@@ -18,23 +18,13 @@
         <table class="form-table">
 
             <tr>
-                <th scope="row">Posts</th>
+                <th scope="row">Enable discussions on posts:</th>
                 <td>
                     <fieldset>
-                        <input type="hidden" name="<?php echo $this->settings->enabled_for_posts->name(); ?>" value="0">
-                        <input type="checkbox"
-                               name="<?php echo $this->settings->enabled_for_posts->name(); ?>"
-                               id="<?php echo $this->settings->enabled_for_posts->name(); ?>"
-                               value="1"
-                            <?php if ($this->settings->enabled_for_posts->get() == 1) {
-                                echo 'checked';
-                            } ?>>
-                        <label for="<?php echo $this->settings->enabled_for_posts->name(); ?>">Enabled for posts</label>
 
-                        <br/>
                         <label>
-                            <input type="radio" name="<?php echo $this->settings->enabled_for_all_posts->name(); ?>"
-                                   value="1" <?php if ($this->settings->enabled_for_all_posts->get() == "1") {
+                            <input type="radio" name="<?php echo $this->settings->enabled_for_posts->name(); ?>"
+                                   value="2" <?php if ($this->settings->enabled_for_posts->get() == "2") {
                                 echo "checked";
                             } ?>>
                             All posts
@@ -42,34 +32,32 @@
                         <br/>
 
                         <label>
-                            <input type="radio" name="<?php echo $this->settings->enabled_for_all_posts->name(); ?>"
-                                   value="0" <?php if ($this->settings->enabled_for_all_posts->get() == "0") {
+                            <input type="radio" name="<?php echo $this->settings->enabled_for_posts->name(); ?>"
+                                   value="1" <?php if ($this->settings->enabled_for_posts->get() == "1") {
                                 echo "checked";
                             } ?>>
                             Selected posts
+                        </label>
+                        <br/>
+
+                        <label>
+                            <input type="radio" name="<?php echo $this->settings->enabled_for_posts->name(); ?>"
+                                   value="0" <?php if ($this->settings->enabled_for_posts->get() == "0") {
+                                echo "checked";
+                            } ?>>
+                            No posts
                         </label>
                     </fieldset>
                 </td>
             </tr>
 
             <tr>
-                <th scope="row">Pages</th>
+                <th scope="row">Enable discussions on pages:</th>
                 <td>
                     <fieldset>
-                        <input type="hidden" name="<?php echo $this->settings->enabled_for_pages->name(); ?>" value="0">
-                        <input type="checkbox"
-                               name="<?php echo $this->settings->enabled_for_pages->name(); ?>"
-                               id="<?php echo $this->settings->enabled_for_pages->name(); ?>"
-                               value="1"
-                            <?php if ($this->settings->enabled_for_pages->get() == 1) {
-                                echo 'checked';
-                            } ?>>
-                        <label for="<?php echo $this->settings->enabled_for_pages->name(); ?>">Enabled for pages</label>
-
-                        <br/>
                         <label>
-                            <input type="radio" name="<?php echo $this->settings->enabled_for_all_pages->name(); ?>"
-                                   value="1" <?php if ($this->settings->enabled_for_all_pages->get() == "1") {
+                            <input type="radio" name="<?php echo $this->settings->enabled_for_pages->name(); ?>"
+                                   value="2" <?php if ($this->settings->enabled_for_pages->get() == "2") {
                                 echo "checked";
                             } ?>>
                             All pages
@@ -77,11 +65,20 @@
                         <br/>
 
                         <label>
-                            <input type="radio" name="<?php echo $this->settings->enabled_for_all_pages->name(); ?>"
-                                   value="0" <?php if ($this->settings->enabled_for_all_pages->get() == "0") {
+                            <input type="radio" name="<?php echo $this->settings->enabled_for_pages->name(); ?>"
+                                   value="1" <?php if ($this->settings->enabled_for_pages->get() == "1") {
                                 echo "checked";
                             } ?>>
                             Selected pages
+                        </label>
+                        <br/>
+
+                        <label>
+                            <input type="radio" name="<?php echo $this->settings->enabled_for_pages->name(); ?>"
+                                   value="0" <?php if ($this->settings->enabled_for_pages->get() == "0") {
+                                echo "checked";
+                            } ?>>
+                            No pages
                         </label>
                     </fieldset>
                 </td>
@@ -99,8 +96,7 @@
                         } ?> id="<?php echo $this->settings->disable_global_comments->name(); ?>" value="1">
                         <label for="<?php echo $this->settings->disable_global_comments->name(); ?>">Disable the default Wordpress comments.</label>
                     </fieldset>
-                    <p class="description">Note: Disables the Wordpress ability to add new comments, but doesn't remove the
-                        existing ones.</p>
+                    <p class="description">Note: Disables the Wordpress ability to add new comments, but still shows the existing ones.</p>
                 </td>
             </tr>
 
