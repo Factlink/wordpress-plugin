@@ -13,6 +13,8 @@ class MetaBox extends \vg\wordpress_plugin\capability\Capability
     public $meta_name;
     public $meta_value;
 
+    public $is_published;
+
     public function initialize($post_type, $post)
     {
         $this->meta_name = $this->settings->post_meta->name;
@@ -22,18 +24,16 @@ class MetaBox extends \vg\wordpress_plugin\capability\Capability
         $title = 'FactLink settings';
         $context = 'advanced';
 
-        if (
-            $this->settings->enabled_for_pages->get() == 1 &&
-            $post_type == 'page' &&
-            $this->settings->enabled_for_all_pages->get() == 0
-        ) {
+        // get the post status of the current post
+        $this->is_published = get_post_status(get_queried_object_id()) == 'publish';
+
+        if ($this->settings->enabled_for_pages->get() == 1 && $post_type == 'page')
+        {
             add_meta_box($id, $title, array($this, 'render_page_meta_box'), 'page', $context);
         }
 
-        if ($this->settings->enabled_for_posts->get() == 1 &&
-            $post_type == 'post' &&
-            $this->settings->enabled_for_all_posts->get() == 0
-        ) {
+        if ($this->settings->enabled_for_posts->get() == 1 && $post_type == 'post')
+        {
             add_meta_box($id, $title, array($this, 'render_post_meta_box'), 'post', $context);
         }
     }
