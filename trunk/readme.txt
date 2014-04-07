@@ -29,7 +29,7 @@ You can find more information at [https://factlink.com/publisher](https://factli
 
 1. Upload the downloaded folder to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Configure the plugin 
+3. Configure the plugin
 4. You're done! You should now be able to use Factlink.
 
 == Screenshots ==
