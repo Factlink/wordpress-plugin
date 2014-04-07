@@ -17,6 +17,7 @@ class Meta
         $this->default_value = $default_value;
         $this->validators = $validators;
         $this->model = $model;
+        $this->prefix = $this->model->meta_prefix;
     }
 
     public function get()
