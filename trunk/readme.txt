@@ -1,6 +1,6 @@
 === Plugin Name ===
 Contributors: factlink
-Tags: discussions, annotation, credibility, social network
+Tags: discussions, annotation, inline comments
 Requires at least: 3.1.0
 Tested up to: 3.8.1
 Stable tag: trunk
