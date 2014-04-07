@@ -1,6 +1,6 @@
 === Plugin Name ===
 Contributors: factlink
-Tags: discussions, annotation, credibility, social network
+Tags: discussions, annotation, inline comments
 Requires at least: 3.1.0
 Tested up to: 3.8.1
 Stable tag: trunk
@@ -27,9 +27,10 @@ You can find more information at [https://factlink.com/publisher](https://factli
 
 == Installation ==
 
-1. Upload the file `factlink.php` to the `/wp-content/plugins/` directory
+1. Upload the downloaded folder to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
-3. You're done! You should now be able to use Factlink.
+3. Configure the plugin
+4. You're done! You should now be able to use Factlink.
 
 == Screenshots ==
 

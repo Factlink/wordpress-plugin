@@ -97,10 +97,9 @@
                                name="<?php echo $this->settings->disable_global_comments->name(); ?>" <?php if ($this->settings->disable_global_comments->get() == 1) {
                             echo 'checked';
                         } ?> id="<?php echo $this->settings->disable_global_comments->name(); ?>" value="1">
-                        <label for="<?php echo $this->settings->disable_global_comments->name(); ?>">Replace Wordpress
-                            comments with Factlink comments.</label>
+                        <label for="<?php echo $this->settings->disable_global_comments->name(); ?>">Disable the default Wordpress comments.</label>
                     </fieldset>
-                    <p class="description">Disables the Wordpress ability to add new comments, but doesn't remove the
+                    <p class="description">Note: Disables the Wordpress ability to add new comments, but doesn't remove the
                         existing ones.</p>
                 </td>
             </tr>
