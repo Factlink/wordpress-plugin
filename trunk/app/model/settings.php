@@ -54,24 +54,24 @@ class Settings extends \vg\wordpress_plugin\model\Model
     public function is_enabled_for_post($post_id)
     {
         // 1 means only selected posts
-        if ($this->enabled_for_pages->get() == 1 && $this->page_meta->get($post_id) == 1 && is_page())
+        if (is_page() && $this->enabled_for_pages->get() == 1 && $this->page_meta->get($post_id) == 1 )
         {
             return true;
         }
 
         // 2 means enabled for all pages
-        if ($this->enabled_for_pages->get() == 2 && is_page())
+        if (is_page() && $this->enabled_for_pages->get() == 2)
         {
             return true;
         }
 
         // is_single means if the current page is a single post
-        if ($this->enabled_for_posts->get() == 1 && $this->post_meta->get($post_id) == 1 && is_single())
+        if (is_single() && $this->enabled_for_posts->get() == 1 && $this->post_meta->get($post_id) == 1)
         {
             return true;
         }
 
-        if ($this->enabled_for_posts->get() == 2 && is_single())
+        if (is_single() && $this->enabled_for_posts->get() == 2)
         {
             return true;
         }
