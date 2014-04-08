@@ -40,6 +40,9 @@ You can find more information at [https://factlink.com/publisher](https://factli
 
 == Changelog ==
 
+= 2.0.1 =
+* FIXED: Bug where the plugin would produce a fatal error if the current page was a 'special' page and 'selected pages' was enabled.
+
 = 2.0 =
 * NEW: Factlink configuration panel
 * NEW: Ability to enable Factlink for all pages and/or posts
