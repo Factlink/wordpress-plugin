@@ -23,7 +23,7 @@ We make it easy for readers to invite their Facebook friends and Twitter followe
 
 = More information =
 
-You can find more information at [https://factlink.com/publisher](https://factlink.com/publisher).
+You can find more information at [https://factlink.com/on-your-site](https://factlink.com/on-your-site).
 
 == Installation ==
 
