@@ -136,6 +136,9 @@ class WordpressPluginController
     // calls the activate method on all the models
     public function activate_models()
     {
+        // have to call the store_Available models here, because not yet instantiated
+        $this->store_available_models();
+
         foreach ($this->models as $model_name => $model) {
             if ($model === null) {
                 // get the model
