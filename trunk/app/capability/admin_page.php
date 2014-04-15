@@ -8,6 +8,8 @@ class AdminPage extends \vg\wordpress_plugin\capability\Capability
      * @var \factlink\model\Settings
      */
     public $settings;
+    public $option_group;
+    public $is_enabled_options;
 
     public function initialize()
     {
@@ -25,15 +27,33 @@ class AdminPage extends \vg\wordpress_plugin\capability\Capability
 
         // register the options that can be updated through the view
         // needs to be called, otherwise the settings won't register and a strange page will be displayed
-        $this->settings->enabled_for_pages->register();
-        $this->settings->enabled_for_posts->register();
+
+        $this->is_enabled_options = $this->settings->is_enabled_options;
+
+        foreach($this->is_enabled_options as $post_type => $is_enabled_option)
+        {
+            $is_enabled_option->register();
+            $this->option_group = $is_enabled_option->group;
+        }
+
         $this->settings->disable_global_comments->register();
     }
 
+    public function get_post_type_label($post_type)
+    {
+        $obj = get_post_type_object($post_type);
+
+        $label = $obj->labels->name;
+
+        if ($label != "")
+            return $label;
+        else
+            return $post_type;
+    }
+
+
     public function admin_page_requested()
     {
-        // set the option group, doesn't really matter which setting is used
-        $this->option_group = $this->settings->enabled_for_posts->group;
         $this->render();
     }
 }
