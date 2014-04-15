@@ -20,7 +20,7 @@ class Post extends Meta
     {
         // Verify this came from the our screen and with proper authorization,
         // because save_post can be triggered at other times
-        if (!isset($_POST[$this->name . '_nonce']) || !wp_verify_nonce($_POST[$this->name . '_nonce'], $this->name . '_nonce_action')) {
+        if (!isset($_POST[$this->name() . '_nonce']) || !wp_verify_nonce($_POST[$this->name() . '_nonce'], $this->name() . '_nonce_action')) {
             return $post_id;
         }
 
@@ -30,7 +30,7 @@ class Post extends Meta
             return $post_id;
 
         // when nothing posted return
-        if (!isset($_POST[$this->name]) || !isset($_POST['post_type']))
+        if (!isset($_POST[$this->name()]) || !isset($_POST['post_type']))
             return $post_id;
 
         $post_type = $_POST['post_type'];
@@ -38,7 +38,7 @@ class Post extends Meta
         if ($post_type != $this->type)
             return $post_id;
 
-        $post_data = $_POST[$this->name];
+        $post_data = $_POST[$this->name()];
 
         $this->set($post_data, $post_id);
 
