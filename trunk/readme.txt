@@ -40,6 +40,10 @@ You can find more information at [https://factlink.com/on-your-site](https://fac
 
 == Changelog ==
 
+= 2.1.0 =
+* NEW: Ability to separately enable Factlink for all different post types.
+* FIXED: Compatibility message with unsupported PHP versionn.
+
 = 2.0.1 =
 * FIXED: Bug where the plugin would produce a fatal error if the current page was a 'special' page and 'selected pages' was enabled.
 
