@@ -69,5 +69,7 @@ class Settings extends \vg\wordpress_plugin\model\Model
 
         if ($is_enabled_value == 2)
             return true;
+
+        return false;
     }
 }
