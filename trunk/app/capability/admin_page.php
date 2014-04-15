@@ -43,7 +43,16 @@ class AdminPage extends \vg\wordpress_plugin\capability\Capability
     {
         $obj = get_post_type_object($post_type);
 
-        $label = $obj->labels->name;
+        if ($post_type == 'attachment')
+        {
+            $label = $obj->labels->name . ' caption';
+        }
+        else
+        {
+            $label = $obj->labels->name;
+        }
+
+
 
         if ($label != "")
             return $label;
