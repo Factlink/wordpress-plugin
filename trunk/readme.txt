@@ -40,6 +40,10 @@ You can find more information at [https://factlink.com/on-your-site](https://fac
 
 == Changelog ==
 
+= 2.1 =
+* NEW: Settings can be managed for all (custom) post types
+* FIXED: Bug where the detection of old PHP versions
+
 = 2.0.1 =
 * FIXED: Bug where the plugin would produce a fatal error if the current page was a 'special' page and 'selected pages' was enabled.
 
