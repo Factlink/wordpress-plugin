@@ -17,36 +17,30 @@ class MetaBox extends \vg\wordpress_plugin\capability\Capability
 
     public function initialize($post_type, $post)
     {
-        $this->meta_name = $this->settings->post_meta->name;
-        $this->meta_value = $this->settings->post_meta->get($post->ID);
-
-        $id = 'factlink-settings-meta';
-        $title = 'FactLink settings';
-        $context = 'advanced';
-
-        // get the post status of the current post
-        $this->is_published = get_post_status(get_queried_object_id()) == 'publish';
-
-        if ($this->settings->enabled_for_pages->get() == 1 && $post_type == 'page')
+        if (isset($this->settings->is_enabled_options[$post_type]))
         {
-            add_meta_box($id, $title, array($this, 'render_page_meta_box'), 'page', $context);
-        }
+            $is_enabled_option = $this->settings->is_enabled_options[$post_type];
+            $post_meta = $this->settings->meta[$post_type];
 
-        if ($this->settings->enabled_for_posts->get() == 1 && $post_type == 'post')
-        {
-            add_meta_box($id, $title, array($this, 'render_post_meta_box'), 'post', $context);
+            $this->is_published = $post->post_status == 'publish';
+
+            if ($is_enabled_option->get() == 1)
+            {
+                $id = 'factlink-settings-meta';
+                $title = 'FactLink settings';
+                $context = 'advanced';
+
+                $this->meta_name = $post_meta->name();
+                $this->meta_value = $post_meta->get($post->ID);
+
+                // can't directly call the render callback, because the render callback passes arguments
+                add_meta_box($id, $title, array($this, 'render_meta_box'), $post_type, $context);
+            }
         }
     }
 
-    public function render_page_meta_box()
+    public function render_meta_box()
     {
-        $this->meta_name = $this->settings->page_meta->name;
-        $this->render();
-    }
-
-    public function render_post_meta_box()
-    {
-        $this->meta_name = $this->settings->post_meta->name;
         $this->render();
     }
 }

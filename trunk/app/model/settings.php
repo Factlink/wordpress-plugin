@@ -4,14 +4,10 @@ namespace factlink\model;
 
 class Settings extends \vg\wordpress_plugin\model\Model
 {
-    public $enabled_for_posts;
-    public $enabled_for_pages;
-
+    public $is_enabled_options;
+    public $meta;
     public $is_configured;
     public $disable_global_comments;
-
-    public $post_meta;
-    public $page_meta;
 
     public $menu_parent_slug = 'options-general.php';
     public $menu_page_title = 'Factlink settings';
@@ -20,16 +16,11 @@ class Settings extends \vg\wordpress_plugin\model\Model
     public $menu_slug = 'factlink_settings_page';
     public $menu_url;
 
+
     function initialize()
     {
         // set the admin page url using wordpress method
         $this->menu_url = get_admin_url(null, $this->menu_parent_slug . "?page=" . $this->menu_slug);
-
-        // setting if factlink is enabled for all the posts
-        $this->enabled_for_posts = $this->create_option_meta('enabled_for_posts', 'global_settings', 2, array('int'));
-
-        // setting if factlink is enabled for all the pages
-        $this->enabled_for_pages = $this->create_option_meta('enabled_for_pages', 'global_settings', 2, array('int'));
 
         // setting to display configuration message as long factlink isn't configured
         $this->is_configured = $this->create_option_meta('is_configured', 'global_settings', 0, array('int'));
@@ -37,11 +28,17 @@ class Settings extends \vg\wordpress_plugin\model\Model
         // settings for totally disabling global comments
         $this->disable_global_comments = $this->create_option_meta('disable_global_comments', 'global_settings', 0, array('int'));
 
-        // get a post meta data object
-        $this->post_meta = $this->create_post_meta('post', 'is_enabled', 0, array('int'));
+        $this->is_enabled_options = array();
+        $this->meta = array();
 
-        // create page meta object
-        $this->page_meta = $this->create_post_meta('page', 'is_enabled', 0, array('int'));
+        $post_types = get_post_types(array("public" => true), 'object');
+
+        // create database handlers for all the different post types
+        foreach ($post_types as $post_type => $post_type_data)
+        {
+            $this->is_enabled_options[$post_type] = $this->create_option_meta("enabled_for_$post_type", 'global_settings', 2, array('int'));
+            $this->meta[$post_type] = $this->create_post_meta($post_type, 'is_enabled', 0, array('int'));
+        }
     }
 
     public function activate()
@@ -51,30 +48,28 @@ class Settings extends \vg\wordpress_plugin\model\Model
         $this->is_configured->set(0);
     }
 
-    public function is_enabled_for_post($post_id)
+    public function is_enabled_for_post($post)
     {
-        // 1 means only selected posts
-        if (is_page() && $this->enabled_for_pages->get() == 1 && $this->page_meta->get($post_id) == 1 )
-        {
-            return true;
-        }
+        if ($post === null)
+            return false;
 
-        // 2 means enabled for all pages
-        if (is_page() && $this->enabled_for_pages->get() == 2)
-        {
-            return true;
-        }
+        if (!is_singular())
+            return false;
 
-        // is_single means if the current page is a single post
-        if (is_single() && $this->enabled_for_posts->get() == 1 && $this->post_meta->get($post_id) == 1)
-        {
-            return true;
-        }
+        if (!isset($this->is_enabled_options[$post->post_type]))
+            return false;
 
-        if (is_single() && $this->enabled_for_posts->get() == 2)
-        {
+        $is_enabled_value = $this->is_enabled_options[$post->post_type]->get();
+        $post_meta_value = $this->meta[$post->post_type]->get($post->ID);
+
+        if ($is_enabled_value == 0)
+            return false;
+
+        if ($is_enabled_value == 1 && $post_meta_value == 1)
             return true;
-        }
+
+        if ($is_enabled_value == 2)
+            return true;
 
         return false;
     }

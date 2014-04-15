@@ -17,72 +17,43 @@
 
         <table class="form-table">
 
-            <tr>
-                <th scope="row">Enable discussions on posts:</th>
-                <td>
-                    <fieldset>
+            <?php foreach($this->is_enabled_options as $post_type => $is_enabled_option) { ?>
 
-                        <label>
-                            <input type="radio" name="<?php echo $this->settings->enabled_for_posts->name(); ?>"
-                                   value="2" <?php if ($this->settings->enabled_for_posts->get() == "2") {
-                                echo "checked";
-                            } ?>>
-                            All posts
-                        </label>
-                        <br/>
+                <tr>
+                    <th scope="row">Enable discussions on <?php echo $this->get_post_type_label($post_type) ?>:</th>
+                    <td>
+                        <fieldset>
 
-                        <label>
-                            <input type="radio" name="<?php echo $this->settings->enabled_for_posts->name(); ?>"
-                                   value="1" <?php if ($this->settings->enabled_for_posts->get() == "1") {
-                                echo "checked";
-                            } ?>>
-                            Selected posts
-                        </label>
-                        <br/>
+                            <label>
+                                <input type="radio" name="<?php echo $is_enabled_option->name(); ?>"
+                                       value="2" <?php if ($is_enabled_option->get() == "2") {
+                                    echo "checked";
+                                } ?>>
+                                All <?php echo $this->get_post_type_label($post_type) ?>
+                            </label>
+                            <br/>
 
-                        <label>
-                            <input type="radio" name="<?php echo $this->settings->enabled_for_posts->name(); ?>"
-                                   value="0" <?php if ($this->settings->enabled_for_posts->get() == "0") {
-                                echo "checked";
-                            } ?>>
-                            No posts
-                        </label>
-                    </fieldset>
-                </td>
-            </tr>
+                            <label>
+                                <input type="radio" name="<?php echo $is_enabled_option->name(); ?>"
+                                       value="1" <?php if ($is_enabled_option->get() == "1") {
+                                    echo "checked";
+                                } ?>>
+                                Selected <?php echo $this->get_post_type_label($post_type) ?>
+                            </label>
+                            <br/>
 
-            <tr>
-                <th scope="row">Enable discussions on pages:</th>
-                <td>
-                    <fieldset>
-                        <label>
-                            <input type="radio" name="<?php echo $this->settings->enabled_for_pages->name(); ?>"
-                                   value="2" <?php if ($this->settings->enabled_for_pages->get() == "2") {
-                                echo "checked";
-                            } ?>>
-                            All pages
-                        </label>
-                        <br/>
+                            <label>
+                                <input type="radio" name="<?php echo $is_enabled_option->name(); ?>"
+                                       value="0" <?php if ($is_enabled_option->get() == "0") {
+                                    echo "checked";
+                                } ?>>
+                                No <?php echo $this->get_post_type_label($post_type) ?>
+                            </label>
+                        </fieldset>
+                    </td>
+                </tr>
 
-                        <label>
-                            <input type="radio" name="<?php echo $this->settings->enabled_for_pages->name(); ?>"
-                                   value="1" <?php if ($this->settings->enabled_for_pages->get() == "1") {
-                                echo "checked";
-                            } ?>>
-                            Selected pages
-                        </label>
-                        <br/>
-
-                        <label>
-                            <input type="radio" name="<?php echo $this->settings->enabled_for_pages->name(); ?>"
-                                   value="0" <?php if ($this->settings->enabled_for_pages->get() == "0") {
-                                echo "checked";
-                            } ?>>
-                            No pages
-                        </label>
-                    </fieldset>
-                </td>
-            </tr>
+            <?php } ?>
 
             <tr>
                 <th scope="row">Comments</th>

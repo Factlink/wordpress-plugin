@@ -24,17 +24,20 @@ class WordpressPluginController
         // setup the paths for the plugin
         $this->setup_paths();
 
-        // load all the dependencies
         $this->load_dependencies();
-
-        // check available models
-        $this->store_available_models();
 
         // set activate / deactivate hooks
         $this->setup_global_plugin_hooks();
 
-        // wordpress hook for initiazing a plugin
-        add_action('init', array($this, 'setup_capabilities'));
+        // wordpress hook for initiazing a plugin, with priority 99999 as late as possible
+        add_action('init', array($this, 'initialize'), 99999);
+    }
+
+    public function initialize()
+    {
+        $this->store_available_models();
+
+        $this->setup_capabilities();
     }
 
     // stub method for setting up all the needed wordpress hooks
@@ -133,6 +136,9 @@ class WordpressPluginController
     // calls the activate method on all the models
     public function activate_models()
     {
+        // have to call the store_Available models here, because not yet instantiated
+        $this->store_available_models();
+
         foreach ($this->models as $model_name => $model) {
             if ($model === null) {
                 // get the model
