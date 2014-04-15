@@ -15,6 +15,18 @@ Author URI: https://factlink.com/
 // for protecting files from direct access
 defined('ABSPATH') or die ('Cannot access pages directly.');
 
+if (version_compare(PHP_VERSION, '5.3.0') < 0) {
+
+    add_action('admin_notices', 'factlink_incompatibility_message');
+    return;
+}
+
+function factlink_incompatibility_message()
+{
+    echo "<div class='error'><p>Factlink plugin: You current PHP version (" . phpversion() . ") doesn't comply with >= PHP 5.3.0. Please update your server.</div>";
+}
+
+
 // load the wordpress plugin class using the wordpress url
 include plugin_dir_path(__FILE__) . '/lib/wordpress_plugin_controller.php';
 

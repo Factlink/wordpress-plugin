@@ -21,27 +21,20 @@ class WordpressPluginController
 
     public function __construct()
     {
-        if (version_compare(PHP_VERSION, '5.3.0') >= 0) {
+        // setup the paths for the plugin
+        $this->setup_paths();
 
-            // setup the paths for the plugin
-            $this->setup_paths();
+        // load all the dependencies
+        $this->load_dependencies();
 
-            // load all the dependencies
-            $this->load_dependencies();
+        // check available models
+        $this->store_available_models();
 
-            // check available models
-            $this->store_available_models();
+        // set activate / deactivate hooks
+        $this->setup_global_plugin_hooks();
 
-            // set activate / deactivate hooks
-            $this->setup_global_plugin_hooks();
-
-            // wordpress hook for initiazing a plugin
-            add_action('init', array($this, 'setup_capabilities'));
-
-        } else {
-            // when the admin notices are rendered, show the incompatibility message
-            add_action('admin_notices', array($this, 'incompatibility_message'));
-        }
+        // wordpress hook for initiazing a plugin
+        add_action('init', array($this, 'setup_capabilities'));
     }
 
     // stub method for setting up all the needed wordpress hooks
@@ -261,11 +254,5 @@ class WordpressPluginController
         $validator = new $class_name();
 
         return $validator;
-    }
-
-    // message for when the php version isn't compatibel
-    public function incompatibility_message()
-    {
-        echo "<div class='error'><p>Factlink plugin: You current PHP version (" . phpversion() . ") doesn't comply with >= PHP 5.3.0. Please update your server.</div>";
     }
 }
