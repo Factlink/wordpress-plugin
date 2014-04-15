@@ -23,7 +23,7 @@ if (version_compare(PHP_VERSION, '5.3.0') < 0) {
 
 function factlink_incompatibility_message()
 {
-    echo "<div class='error'><p>Factlink plugin: You current PHP version (" . phpversion() . ") doesn't comply with >= PHP 5.3.0. Please update your server.</div>";
+    echo "<div class='error'><p>Factlink plugin: Your current PHP version (" . phpversion() . ") doesn't comply with >= PHP 5.3.0.</div>";
 }
 
 
