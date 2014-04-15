@@ -48,18 +48,19 @@ class Settings extends \vg\wordpress_plugin\model\Model
         $this->is_configured->set(0);
     }
 
-    public function is_enabled_for_post($post_id)
+    public function is_enabled_for_post($post)
     {
-        $post = get_post($post_id);
-
         if ($post === null)
+            return false;
+
+        if (!is_singular())
             return false;
 
         if (!isset($this->is_enabled_options[$post->post_type]))
             return false;
 
         $is_enabled_value = $this->is_enabled_options[$post->post_type]->get();
-        $post_meta_value = $this->meta[$post->post_type]->get($post_id);
+        $post_meta_value = $this->meta[$post->post_type]->get($post->ID);
 
         if ($is_enabled_value == 0)
             return false;
