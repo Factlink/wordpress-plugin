@@ -24,17 +24,20 @@ class WordpressPluginController
         // setup the paths for the plugin
         $this->setup_paths();
 
-        // load all the dependencies
         $this->load_dependencies();
-
-        // check available models
-        $this->store_available_models();
 
         // set activate / deactivate hooks
         $this->setup_global_plugin_hooks();
 
-        // wordpress hook for initiazing a plugin
-        add_action('init', array($this, 'setup_capabilities'));
+        // wordpress hook for initiazing a plugin, with priority 99999 as late as possible
+        add_action('init', array($this, 'initialize'), 99999);
+    }
+
+    public function initialize()
+    {
+        $this->store_available_models();
+
+        $this->setup_capabilities();
     }
 
     // stub method for setting up all the needed wordpress hooks
