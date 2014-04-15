@@ -2,7 +2,7 @@
 Contributors: factlink
 Tags: discussions, annotation, inline comments
 Requires at least: 3.1.0
-Tested up to: 3.8.1
+Tested up to: 3.8.3
 Stable tag: trunk
 
 Great discussions on your site. Readers join discussions inside your articles and invite their friends. You get engaged users, and more of them.
@@ -40,7 +40,7 @@ You can find more information at [https://factlink.com/on-your-site](https://fac
 
 == Changelog ==
 
-= 2.1.0 =
+= 2.1 =
 * NEW: Ability to separately enable Factlink for all different post types.
 * FIXED: Compatibility message with unsupported PHP versionn.
 

@@ -1,14 +1,14 @@
 <?php
 /**
  * @package Factlink
- * @version 2.1.0
+ * @version 2.1
  */
 /*
 Plugin Name: Factlink for Wordpress
 Plugin URI: https://factlink.com/
 Description: Integrates the Factlink commenting & annotation tool in your Wordpress website
 Author: Factlink
-Version: 2.1.0
+Version: 2.1
 Author URI: https://factlink.com/
 */
 
