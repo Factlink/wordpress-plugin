@@ -14,6 +14,7 @@ class Post extends Meta
 
         // add a wordpress hook for when a post is saved, the callback is called
         add_action('save_post', array($this, 'save_data'));
+        add_action('edit_attachment', array ($this, 'save_data'));
     }
 
     public function save_data($post_id)
