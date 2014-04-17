@@ -2,7 +2,7 @@
 Contributors: factlink
 Tags: discussions, annotation, inline comments
 Requires at least: 3.1.0
-Tested up to: 3.8.3
+Tested up to: 3.9
 Stable tag: trunk
 
 Great discussions on your site. Readers join discussions inside your articles and invite their friends. You get engaged users, and more of them.
